@@ -46,7 +46,7 @@ if (isset($_POST['Ingresar'])) {
             $datosUsuario = $usuario->getUserById($_POST['username']);
             session_start(); //Registra la sesion
             $_SESSION['id_usuario'] = $datosUsuario[0]["idUsuario"];
-            header('location: ../vista/escritorio/');
+            header('location: ../vista/index.php');
         } else {
             header('location: ../vista/login/index.php?pass=false');
         }

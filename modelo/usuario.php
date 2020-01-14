@@ -140,7 +140,7 @@ class Usuario
     public function getUserById($usuarioNombre = null)
     {
         if (!empty($usuarioNombre)) {
-            $query  = "SELECT * FROM usuario WHERE nombre = '" . $usuarioNombre . "'";
+            $query  = "SELECT * FROM usuario WHERE nombre_usuario = '" . $usuarioNombre . "'";
             $result = mysqli_query($this->link, $query);
             $data   = array();
             while ($data[] = mysqli_fetch_assoc($result));
@@ -156,7 +156,7 @@ class Usuario
     {
         if (!empty($usuarioNombre)) {
             if (!empty($password)) {
-                $query  = "SELECT * FROM usuario WHERE nombre ='" . $usuarioNombre . "' AND password='" . $password . "'";
+                $query  = "SELECT * FROM usuario WHERE nombre_usuario ='" . $usuarioNombre . "' AND pass_usuario='" . $password . "'";
                 $result = mysqli_query($this->link, $query);
                 $data   = array();
                 while ($data[] = mysqli_fetch_assoc($result));

@@ -76,4 +76,7 @@ $usuario = new Usuario();
 
   </div>
 </div>
-</body>
+<?php
+//Se ingluye el header
+include '../footer.php';
+?>

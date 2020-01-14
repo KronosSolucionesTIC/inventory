@@ -5,25 +5,31 @@
     <meta http-equiv="content-language" content="es">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo $title = isset($title) ? $title : 'Intranet - Lunel IE SAS'; ?></title>
+    <title>
+            Inventory - Software
+        </title>
+        <!-- Custom styles for this template-->
     <!-- Icono del software -->
     <link rel="shortcut icon" type="image/x-icon" href="../../imagenes/favicon.ico" />
-    <!-- Bootstrap -->
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <!-- JQuery -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!-- Estilos -->
+    <!-- Estilo del boostrap V 3.4.1 -->
+    <link rel="stylesheet" type="text/css" href="../../librerias/bootstrap/css/bootstrap.css">
+    <!-- Estilo del alertifyjs -->
+    <link rel="stylesheet" type="text/css" href="../../librerias/alertifyjs/css/alertify.css">
+    <link rel="stylesheet" type="text/css" href="../../librerias/alertifyjs/css/themes/default.css">
+    <!-- Estilo del login -->
     <link href="../../css/estilos.css" rel="stylesheet"/>
-    <!-- Fuentes -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-    <!-- Slider -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <!-- Funciones -->
-    <script type="text/javascript" src="../../js/funciones.js"></script>
-    <!-- Iconos -->
-    <script src="https://kit.fontawesome.com/a97cb65071.js" crossorigin="anonymous"></script>
-</head>
+    <!-- Custom fonts for this template-->
+    <link href="componentes/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
+    <!-- Custom styles for this template-->
+    <link href="componentes/css/sb-admin-2.min.css" rel="stylesheet"/>
+    <script src="componentes/vendor/jquery/jquery.min.js"></script>
+    <script src="componentes/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="componentes/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="componentes/js/sb-admin-2.min.js"></script>
+    <!-- Datatable -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
 <body>
