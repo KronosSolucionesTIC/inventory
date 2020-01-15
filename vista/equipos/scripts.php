@@ -40,14 +40,168 @@
 
 	//Funcion guardar equipo
 	$("#btn_guardar_equipo").click(function(){
-		accion = $(this).attr('data-accion');
-		if(accion == 'crear'){
-			crea_equipo();
-		}
-		if(accion == 'editar'){
-			edita_equipo();
+		resultado = campos_incompletos();
+		if(resultado == true){
+			accion = $(this).attr('data-accion');
+			if(accion == 'crear'){
+				crea_equipo();
+			}
+			if(accion == 'editar'){
+				edita_equipo();
+			}
 		}
 	});
+
+	//Funcion guardar tipo de equipo
+	$("#btn_guardar_tipo_equipo").click(function(){
+		validar_tipo_equipo();
+		return false;
+	});
+
+	//Funcion para guardar el tipo de equipo
+	function crea_tipo_equipo(){
+		var cadena = "";
+	 	nombre_tipo_equipo = $("#nombre_tipo_equipo").val();
+
+	    $.ajax({
+	      url: "../controlador/ajaxEquipo.php",
+	      data: 'nombre_tipo_equipo='+nombre_tipo_equipo+'&tipo=inserta_tipo_equipo'
+	    })
+	    .done(function(data) {
+	      //---------------------
+	      console.log(data);
+	      $("#modalTipoEquipo").removeClass("show");
+	      $("#modalTipoEquipo").removeClass("modal-backdrop");
+	      carga_tipo_equipo();
+	      $("#nombre_tipo_equipo").val("");
+	    })
+	    .fail(function(data) {
+	      console.log(data);
+	    })
+	     always(function(data) {
+	      console.log(data);
+	    });
+	}
+
+	//Funcion para cargar tipo de equipo
+	function carga_tipo_equipo(){
+
+	    $.ajax({
+	        url: "../controlador/ajaxEquipo.php",
+	        data: "id_equipo="+id_equipo+"&tipo=ultimo_tipo_equipo",
+	        dataType: 'json'
+	    })
+	    .done(function(data) {
+
+	        $.each(data[0], function( key, value ) {
+	          	console.log(key+"--"+value);
+	          	if(key == "id_tipo_equipo"){
+	          		optionValue = value;
+	          	}
+	          	if(key == "nombre_tipo_equipo")
+            		optionText = value;
+	        });
+	        $('#fkID_tipo_equipo').append(new Option(optionText, optionValue));
+	        $('#fkID_tipo_equipo').val(optionValue);
+	        alert('Guardado el tipo de equipo');
+	    })
+	    .fail(function(data) {
+	        console.log(data);
+	    })
+	    .always(function(data) {
+	        console.log(data);
+	    });
+	};
+
+	//Funcion para validar tipo de equipo
+	function validar_tipo_equipo(){
+	 	nombre_tipo_equipo = $("#nombre_tipo_equipo").val();
+
+	    $.ajax({
+	      url: "../controlador/ajaxEquipo.php",
+	      data: 'nombre_tipo_equipo='+nombre_tipo_equipo+'&tipo=valida_tipo_equipo',
+	      dataType: 'json'
+	    })
+	    .done(function(data) {
+	      //---------------------
+	      if(data[0]["cantidad"] >0){
+	      	alert('El tipo de equipo ya esta registrado');
+	      	$("#nombre_tipo_equipo").val("");
+	      	$("#nombre_tipo_equipo").focus();
+	      } else {
+	      	crea_tipo_equipo();
+	      }
+	    })
+	    .fail(function(data) {
+	      console.log(data);
+	    });
+	}
+	//Campos incompletos
+	function campos_incompletos(){
+		var bandera = true;
+		if($("#serial_equipo").val().length == 0){
+			bandera = false;
+		}
+		if($('#fkID_tipo_equipo').val().trim() == 0){
+			bandera = false;
+		}
+		if($('#fkID_modelo').val().trim() == 0){
+			bandera = false;
+		}
+		if($('#fkID_marca').val().trim() == 0){
+			bandera = false;
+		}
+		if($('#fkID_procesador').val().trim() == 0){
+			bandera = false;
+		}
+		if(bandera == false){
+			alert('Complete el formulario');
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	//Cambia el ID de procesador
+	$("#fkID_tipo_equipo").change(function(){
+		id = $(this).val();
+		console.log(id);
+		if(id == 2 || id == 5 || id == 6 || id == 7){
+			$("#fkID_procesador").val("7");
+			$('#fkID_procesador').attr('disabled',true);
+		} else {
+			$("#fkID_procesador").val("");
+			$('#fkID_procesador').removeAttr('disabled',false);
+		}
+	});
+
+	//Evento cuando pierde el foco
+	$("#serial_equipo").blur(function(){
+		validar_serial();
+	});
+
+	//Funcion para validar que no se repite el serial
+	function validar_serial(){
+		var cadena = "";
+	 	serial_equipo = $("#serial_equipo").val();
+
+	    $.ajax({
+	      url: "../controlador/ajaxEquipo.php",
+	      data: 'serial_equipo='+serial_equipo+'&tipo=valida_serial',
+	      dataType: 'json'
+	    })
+	    .done(function(data) {
+	      //---------------------
+	      if(data[0]["cantidad"] >0){
+	      	alert('El serial ya esta registrado');
+	      	$("#serial_equipo").val("");
+	      	$("#serial_equipo").focus();
+	      }
+	    })
+	    .fail(function(data) {
+	      console.log(data);
+	    });
+	}
 
 	//Funcion para guardar el equipo
 	function crea_equipo(){

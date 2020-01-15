@@ -6,7 +6,11 @@ $tipo   = $_GET['tipo'];
 
 if ($tipo == 'inserta') {
     if ($equipo->insertaEquipo($_GET)) {
-        return 'Se guardo';
+        if ($equipo->insertaInventario($_GET)) {
+            if ($equipo->insertaHistorico($_GET)) {
+                return 'Se guardo';
+            }
+        }
     } else {
         return 'No se guardo';
     }
@@ -34,5 +38,40 @@ if ($tipo == 'elimina_logico') {
         return 'Se guardo';
     } else {
         return 'No se guardo';
+    }
+}
+
+if ($tipo == 'valida_serial') {
+    $resultado = $equipo->validaSerial($_GET);
+    if ($resultado) {
+        echo json_encode($resultado); //imprime el json
+    } else {
+        return 'No se consulto';
+    }
+}
+
+if ($tipo == 'valida_tipo_equipo') {
+    $resultado = $equipo->validaTipoEquipo($_GET);
+    if ($resultado) {
+        echo json_encode($resultado); //imprime el json
+    } else {
+        return 'No se consulto';
+    }
+}
+
+if ($tipo == 'inserta_tipo_equipo') {
+    if ($equipo->insertaTipoEquipo($_GET)) {
+        return 'Guardo';
+    } else {
+        return 'No se guardo';
+    }
+}
+
+if ($tipo == 'ultimo_tipo_equipo') {
+    $resultado = $equipo->ultimoTipoEquipo($_GET);
+    if ($resultado) {
+        echo json_encode($resultado); //imprime el json
+    } else {
+        return 'No se consulto';
     }
 }

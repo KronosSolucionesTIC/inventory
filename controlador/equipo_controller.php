@@ -18,7 +18,7 @@ class equipoController extends equipo
         $listaTipoEquipo = $equipo->getTipoEquipo();
         //Se recorre array de nivel 1
         if (isset($listaTipoEquipo)) {
-            echo '<option selected value="0">Seleccione...</option>';
+            echo '<option selected value="">Seleccione...</option>';
             for ($i = 0; $i < sizeof($listaTipoEquipo); $i++) {
                 //Valida si es el valor
                 if ($valor == $listaTipoEquipo[$i]["id_tipo_equipo"]) {
@@ -40,7 +40,7 @@ class equipoController extends equipo
         $listaModelo = $equipo->getModelo();
         //Se recorre array de nivel 1
         if (isset($listaModelo)) {
-            echo '<option selected>Seleccione...</option>';
+            echo '<option selected value="">Seleccione...</option>';
             for ($i = 0; $i < sizeof($listaModelo); $i++) {
                 //Valida si es el valor
                 if ($valor == $listaModelo[$i]["id_modelo"]) {
@@ -62,7 +62,7 @@ class equipoController extends equipo
         $listaMarca = $equipo->getMarca();
         //Se recorre array de nivel 1
         if (isset($listaMarca)) {
-            echo '<option selected>Seleccione...</option>';
+            echo '<option selected value="">Seleccione...</option>';
             for ($i = 0; $i < sizeof($listaMarca); $i++) {
                 //Valida si es el valor
                 if ($valor == $listaMarca[$i]["id_marca"]) {
@@ -84,7 +84,7 @@ class equipoController extends equipo
         $listaProcesador = $equipo->getProcesador();
         //Se recorre array de nivel 1
         if (isset($listaProcesador)) {
-            echo '<option selected>Seleccione...</option>';
+            echo '<option selected value="">Seleccione...</option>';
             for ($i = 0; $i < sizeof($listaProcesador); $i++) {
                 //Valida si es el valor
                 if ($valor == $listaProcesador[$i]["id_procesador"]) {
