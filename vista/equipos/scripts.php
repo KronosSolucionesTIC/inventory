@@ -582,4 +582,28 @@
 	        console.log(data);
 	    });
 	};
+
+	//Funcion para el detalle de equipo
+	$("[name*='btn_detalle']").click(function(){
+		id_equipo = $(this).attr('data-id-equipo');
+		console.log(id_equipo);
+        $('#tabla').load('equipos/detalle_equipo.php?id_equipo='+id_equipo);
+    });
+
+
+	//Funcion para imprimir
+	$("#btn_imprimir").click(function(){
+		printDiv('tablaHistorico');
+    	return false;
+    });
+
+	//Funcion para imprimir
+	function printDiv(nombreDiv) {
+     	var contenido= document.getElementById(nombreDiv).innerHTML;
+     	var contenidoOriginal= document.body.innerHTML;
+
+     	document.body.innerHTML = contenido;
+     	window.location="../vista/index.php";
+     	window.print();
+	}
 </script>

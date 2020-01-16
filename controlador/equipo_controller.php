@@ -108,13 +108,51 @@ class equipoController extends equipo
         if (isset($listaEquipos)) {
             for ($i = 0; $i < sizeof($listaEquipos); $i++) {
                 echo '<tr>';
-                echo '<td>' . $listaEquipos[$i]["serial_equipo"] . '</td>';
-                echo '<td>' . $listaEquipos[$i]["nombre_tipo_equipo"] . '</td>';
-                echo '<td>' . $listaEquipos[$i]["nombre_modelo"] . '</td>';
-                echo '<td>' . $listaEquipos[$i]["nombre_marca"] . '</td>';
-                echo '<td>' . $listaEquipos[$i]["nombre_procesador"] . '</td>';
-                echo '<td>' . $listaEquipos[$i]["nombre_estado_equipo"] . '</td>';
+                echo '<td class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["serial_equipo"] . '</td>';
+                echo '<td class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_tipo_equipo"] . '</td>';
+                echo '<td class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_modelo"] . '</td>';
+                echo '<td class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_marca"] . '</td>';
+                echo '<td class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_procesador"] . '</td>';
+                echo '<td class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_estado_equipo"] . '</td>';
                 echo '<td><button type="button" class="btn btn-warning" data-target="#modalEquipo" data-toggle="modal" name="btn_editar" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '"><i class="fas fa-pen-square"></i></i></button> <button type="button" class="btn btn-danger" name="btn_eliminar" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '" data-toggle="modal" data-target="#eliminarModal"><i class="fas fa-trash-alt"></i></button></td>';
+                echo '</tr>';
+            }
+        } else {
+            echo '<tr>';
+            echo '<td colspan="9">No existen equipos</td>';
+            echo '</tr>';
+        }
+    }
+
+    //Datos equipo
+    public function getDatosEquipoID($id_equipo)
+    {
+        //Instancia del equipo
+        $equipo = new equipo();
+        //Lista del menu Nivel 1
+        $listaEquipos = $equipo->getEquipoID($id_equipo);
+        //Se recorre array de nivel 1
+        if (isset($listaEquipos)) {
+            return $listaEquipos;
+        }
+    }
+
+    //Tabla historico
+    public function getTablaHistorico($id_equipo)
+    {
+        //Instancia del equipo
+        $equipo = new equipo();
+        //Lista del menu Nivel 1
+        $listaEquipos = $equipo->getHistoricoEquipo($id_equipo);
+        //Se recorre array de nivel 1
+        if (isset($listaEquipos)) {
+            for ($i = 0; $i < sizeof($listaEquipos); $i++) {
+                echo '<tr>';
+                echo '<td>' . $listaEquipos[$i]["fecha_historico_equipo"] . '</td>';
+                echo '<td>' . $listaEquipos[$i]["entrega"] . '</td>';
+                echo '<td>' . $listaEquipos[$i]["recibe"] . '</td>';
+                echo '<td>' . $listaEquipos[$i]["nombre_tipo_movimiento"] . '</td>';
+                echo '<td>' . $listaEquipos[$i]["conse_historico_equipo"] . '</td>';
                 echo '</tr>';
             }
         } else {

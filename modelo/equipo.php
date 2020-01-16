@@ -359,4 +359,42 @@ class Equipo
         array_pop($data);
         return $data;
     }
+
+    //Trae el equipo por ID
+    public function getEquipoID($id_equipo)
+    {
+        $query = "SELECT * FROM equipo
+                INNER JOIN tipo_equipo ON tipo_equipo.id_tipo_equipo = equipo.fkID_tipo_equipo
+                INNER JOIN modelo ON modelo.id_modelo = equipo.fkID_modelo
+                INNER JOIN marca ON marca.id_marca = equipo.fkID_marca
+                INNER JOIN procesador ON procesador.id_procesador = equipo.fkID_procesador
+                INNER JOIN estado_equipo ON estado_equipo.id_estado_equipo = equipo.fkID_estado
+                INNER JOIN inventario ON inventario.fkID_equipo = equipo.id_equipo
+                INNER JOIN persona ON persona.id_persona = inventario.fkID_persona_a_cargo
+                INNER JOIN proyecto ON proyecto.id_proyecto = persona.fkID_proyecto
+                INNER JOIN territorial ON territorial.id_territorial = persona.fkID_territorial
+                INNER JOIN area ON area.id_area = persona.fkID_area
+                INNER JOIN cargo ON cargo.id_cargo = persona.fkID_cargo
+                WHERE equipo.estado = 1 AND id_equipo = '" . $id_equipo . "'";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Trae el historico de un equipo
+    public function getHistoricoEquipo($id_equipo)
+    {
+        $query = "SELECT *,CONCAT(p1.nombres_persona,' ',p1.apellidos_persona) AS entrega,CONCAT(p2.nombres_persona,' ',p2.apellidos_persona) AS recibe FROM historico_equipo
+                INNER JOIN persona AS p1 ON p1.id_persona = historico_equipo.fkID_persona_entrega
+                INNER JOIN persona AS p2 ON p2.id_persona = historico_equipo.fkID_persona_recibe
+                INNER JOIN tipo_movimiento ON tipo_movimiento.id_tipo_movimiento = historico_equipo.fkID_tipo_movimiento
+                WHERE fkID_equipo = '" . $id_equipo . "'";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
 }

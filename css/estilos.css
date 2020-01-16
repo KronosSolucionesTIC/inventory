@@ -233,3 +233,6 @@ table {
 .ui-draggable, .ui-droppable {
     background-position: top;
 }
+.detalle {
+    cursor: crosshair;
+}
