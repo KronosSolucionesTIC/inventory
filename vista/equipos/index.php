@@ -80,3 +80,4 @@
 </div>
 <?php include "modal_equipo.php";?>
 <?php include "modal_tipo_equipo.php";?>
+<?php include "modal_modelo.php";?>

@@ -241,4 +241,38 @@ class Equipo
         array_pop($data);
         return $data;
     }
+
+    //Valida el modelo
+    public function validaModelo($data)
+    {
+        $query  = "SELECT COUNT(*) AS cantidad FROM `modelo` WHERE nombre_modelo =  '" . $data['nombre_modelo'] . "' AND estado = 1";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Crea un nuevo modelo
+    public function insertaModelo($data)
+    {
+        $query  = "INSERT INTO modelo (nombre_modelo) VALUES ('" . $data['nombre_modelo'] . "')";
+        $result = mysqli_query($this->link, $query);
+        if (mysqli_affected_rows($this->link) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //Consulta el ultimo ID de modelo
+    public function ultimoModelo()
+    {
+        $query  = "SELECT id_modelo,nombre_modelo FROM `modelo` ORDER BY `modelo`.`id_modelo` DESC LIMIT 1";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
 }

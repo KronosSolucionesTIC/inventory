@@ -75,3 +75,29 @@ if ($tipo == 'ultimo_tipo_equipo') {
         return 'No se consulto';
     }
 }
+
+if ($tipo == 'valida_modelo') {
+    $resultado = $equipo->validaModelo($_GET);
+    if ($resultado) {
+        echo json_encode($resultado); //imprime el json
+    } else {
+        return 'No se consulto';
+    }
+}
+
+if ($tipo == 'inserta_modelo') {
+    if ($equipo->insertaModelo($_GET)) {
+        return 'Guardo';
+    } else {
+        return 'No se guardo';
+    }
+}
+
+if ($tipo == 'ultimo_modelo') {
+    $resultado = $equipo->ultimoModelo($_GET);
+    if ($resultado) {
+        echo json_encode($resultado); //imprime el json
+    } else {
+        return 'No se consulto';
+    }
+}

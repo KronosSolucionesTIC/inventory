@@ -136,6 +136,7 @@
 	      console.log(data);
 	    });
 	}
+
 	//Campos incompletos
 	function campos_incompletos(){
 		var bandera = true;
@@ -329,4 +330,88 @@
 	      console.log(data);
 	    });
 	}
+
+	//Funcion guardar modelo
+	$("#btn_guardar_modelo").click(function(){
+		validar_modelo();
+		return false;
+	});
+
+	//Funcion para validar modelo
+	function validar_modelo(){
+	 	nombre_modelo = $("#nombre_modelo").val();
+
+	    $.ajax({
+	      url: "../controlador/ajaxEquipo.php",
+	      data: 'nombre_modelo='+nombre_modelo+'&tipo=valida_modelo',
+	      dataType: 'json'
+	    })
+	    .done(function(data) {
+	      //---------------------
+	      if(data[0]["cantidad"] >0){
+	      	alert('El modelo ya esta registrado');
+	      	$("#nombre_modelo").val("");
+	      	$("#nombre_modelo").focus();
+	      } else {
+	      	crea_modelo();
+	      }
+	    })
+	    .fail(function(data) {
+	      console.log(data);
+	    });
+	}
+
+	//Funcion para guardar el modelo
+	function crea_modelo(){
+	 	nombre_modelo = $("#nombre_modelo").val();
+
+	    $.ajax({
+	      url: "../controlador/ajaxEquipo.php",
+	      data: 'nombre_modelo='+nombre_modelo+'&tipo=inserta_modelo'
+	    })
+	    .done(function(data) {
+	      //---------------------
+	      console.log(data);
+	      $("#modalModelo").removeClass("show");
+	      $("#modalModelo").removeClass("modal-backdrop");
+	      carga_modelo();
+	      $("#nombre_modelo").val("");
+	    })
+	    .fail(function(data) {
+	      console.log(data);
+	    })
+	     always(function(data) {
+	      console.log(data);
+	    });
+	}
+
+	//Funcion para cargar el registro guardado
+	function carga_modelo(){
+
+	    $.ajax({
+	        url: "../controlador/ajaxEquipo.php",
+	        data: "tipo=ultimo_modelo",
+	        dataType: 'json'
+	    })
+	    .done(function(data) {
+
+	        $.each(data[0], function( key, value ) {
+	          	console.log(key+"--"+value);
+	          	if(key == "id_modelo"){
+	          		optionValue = value;
+	          	}
+	          	if(key == "nombre_modelo")
+            		optionText = value;
+	        });
+	        $('#fkID_modelo').append(new Option(optionText, optionValue));
+	        $('#fkID_modelo').val(optionValue);
+	        alert('Guardado el modelo');
+	    })
+	    .fail(function(data) {
+	        console.log(data);
+	    })
+	    .always(function(data) {
+	        console.log(data);
+	    });
+	};
 </script>
