@@ -82,8 +82,12 @@ class Equipo
     //Crea un nuevo equipo
     public function insertaEquipo($data)
     {
-        $query  = "INSERT INTO equipo (serial_equipo,fkID_tipo_equipo,fkID_modelo,fkID_marca,fkID_procesador, observaciones_equipo,fkID_estado) VALUES ('" . $data['serial_equipo'] . "', '" . $data['fkID_tipo_equipo'] . "', '" . $data['fkID_modelo'] . "', '" . $data['fkID_marca'] . "', '" . $data['fkID_procesador'] . "', '" . $data['observaciones_equipo'] . "','1')";
-        $result = mysqli_query($this->link, $query);
+        //Pasa el serial a mayusculas
+        $serial = strtoupper($data['serial_equipo']);
+        //Pasa las observaciones a mayusculas
+        $observaciones = strtoupper($data['observaciones_equipo']);
+        $query         = "INSERT INTO equipo (serial_equipo,fkID_tipo_equipo,fkID_modelo,fkID_marca,fkID_procesador, observaciones_equipo,fkID_estado) VALUES ('" . $serial . "', '" . $data['fkID_tipo_equipo'] . "', '" . $data['fkID_modelo'] . "', '" . $data['fkID_marca'] . "', '" . $data['fkID_procesador'] . "', '" . $observaciones . "','1')";
+        $result        = mysqli_query($this->link, $query);
         if (mysqli_affected_rows($this->link) > 0) {
             return true;
         } else {
@@ -106,8 +110,12 @@ class Equipo
     //Edita un equipo
     public function editaEquipo($data)
     {
-        $query  = "UPDATE equipo SET serial_equipo = '" . $data['serial_equipo'] . "',fkID_tipo_equipo = '" . $data['fkID_tipo_equipo'] . "',fkID_modelo = '" . $data['fkID_modelo'] . "',fkID_marca = '" . $data['fkID_marca'] . "' ,fkID_procesador = '" . $data['fkID_procesador'] . "', observaciones_equipo = '" . $data['observaciones_equipo'] . "' WHERE id_equipo = '" . $data['id_equipo'] . "'";
-        $result = mysqli_query($this->link, $query);
+        //Pasa el serial a mayusculas
+        $serial = strtoupper($data['serial_equipo']);
+        //Pasa las observaciones a mayusculas
+        $observaciones = strtoupper($data['observaciones_equipo']);
+        $query         = "UPDATE equipo SET serial_equipo = '" . $serial . "',fkID_tipo_equipo = '" . $data['fkID_tipo_equipo'] . "',fkID_modelo = '" . $data['fkID_modelo'] . "',fkID_marca = '" . $data['fkID_marca'] . "' ,fkID_procesador = '" . $data['fkID_procesador'] . "', observaciones_equipo = '" . $observaciones . "' WHERE id_equipo = '" . $data['id_equipo'] . "'";
+        $result        = mysqli_query($this->link, $query);
         if (mysqli_affected_rows($this->link) > 0) {
             return true;
         } else {
@@ -143,7 +151,7 @@ class Equipo
     {
         //Consulta el ultimo ID de equipo
         $id_equipo = $this->getIdEquipo();
-        $query     = "INSERT INTO inventario (fkID_equipo,fkID_persona_a_cargo,fkID_territorial,obs_inventario) VALUES ('" . $id_equipo[0]["id_equipo"] . "','1','3','CREACIÓN DE EQUIPO')";
+        $query     = "INSERT INTO inventario (fkID_equipo,fkID_persona_a_cargo,obs_inventario) VALUES ('" . $id_equipo[0]["id_equipo"] . "','1','CREACIÓN DE EQUIPO')";
         $result    = mysqli_query($this->link, $query);
         if (mysqli_affected_rows($this->link) > 0) {
             return true;
@@ -222,7 +230,9 @@ class Equipo
     //Crea un nuevo tipo equipo
     public function insertaTipoEquipo($data)
     {
-        $query  = "INSERT INTO tipo_equipo (nombre_tipo_equipo) VALUES ('" . $data['nombre_tipo_equipo'] . "')";
+        //Pasa el nombre a mayusculas
+        $nombre = strtoupper($data['nombre_tipo_equipo']);
+        $query  = "INSERT INTO tipo_equipo (nombre_tipo_equipo) VALUES ('" . $nombre . "')";
         $result = mysqli_query($this->link, $query);
         if (mysqli_affected_rows($this->link) > 0) {
             return true;
@@ -256,7 +266,9 @@ class Equipo
     //Crea un nuevo modelo
     public function insertaModelo($data)
     {
-        $query  = "INSERT INTO modelo (nombre_modelo) VALUES ('" . $data['nombre_modelo'] . "')";
+        //Pasa el nombre a mayusculas
+        $nombre = strtoupper($data['nombre_modelo']);
+        $query  = "INSERT INTO modelo (nombre_modelo) VALUES ('" . $nombre . "')";
         $result = mysqli_query($this->link, $query);
         if (mysqli_affected_rows($this->link) > 0) {
             return true;
@@ -269,6 +281,78 @@ class Equipo
     public function ultimoModelo()
     {
         $query  = "SELECT id_modelo,nombre_modelo FROM `modelo` ORDER BY `modelo`.`id_modelo` DESC LIMIT 1";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Valida el marca
+    public function validaMarca($data)
+    {
+        $query  = "SELECT COUNT(*) AS cantidad FROM `marca` WHERE nombre_marca =  '" . $data['nombre_marca'] . "' AND estado = 1";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Crea un nuevo procesador
+    public function insertaMarca($data)
+    {
+        //Pasa el nombre a mayusculas
+        $nombre = strtoupper($data['nombre_marca']);
+        $query  = "INSERT INTO marca (nombre_marca) VALUES ('" . $nombre . "')";
+        $result = mysqli_query($this->link, $query);
+        if (mysqli_affected_rows($this->link) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //Consulta el ultimo ID de procesador
+    public function ultimaMarca()
+    {
+        $query  = "SELECT id_marca,nombre_marca FROM `marca` ORDER BY `marca`.`id_marca` DESC LIMIT 1";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Valida el procesador
+    public function validaProcesador($data)
+    {
+        $query  = "SELECT COUNT(*) AS cantidad FROM `procesador` WHERE nombre_procesador =  '" . $data['nombre_procesador'] . "' AND estado = 1";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Crea un nuevo procesador
+    public function insertaProcesador($data)
+    {
+        //Pasa el nombre a mayusculas
+        $nombre = strtoupper($data['nombre_procesador']);
+        $query  = "INSERT INTO procesador (nombre_procesador) VALUES ('" . $nombre . "')";
+        $result = mysqli_query($this->link, $query);
+        if (mysqli_affected_rows($this->link) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //Consulta el ultimo ID de procesador
+    public function ultimoProcesador()
+    {
+        $query  = "SELECT id_procesador,nombre_procesador FROM `procesador` ORDER BY `procesador`.`id_procesador` DESC LIMIT 1";
         $result = mysqli_query($this->link, $query);
         $data   = array();
         while ($data[] = mysqli_fetch_assoc($result));

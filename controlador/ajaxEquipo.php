@@ -101,3 +101,55 @@ if ($tipo == 'ultimo_modelo') {
         return 'No se consulto';
     }
 }
+
+if ($tipo == 'valida_marca') {
+    $resultado = $equipo->validaMarca($_GET);
+    if ($resultado) {
+        echo json_encode($resultado); //imprime el json
+    } else {
+        return 'No se consulto';
+    }
+}
+
+if ($tipo == 'inserta_marca') {
+    if ($equipo->insertaMarca($_GET)) {
+        return 'Guardo';
+    } else {
+        return 'No se guardo';
+    }
+}
+
+if ($tipo == 'ultima_marca') {
+    $resultado = $equipo->ultimaMarca($_GET);
+    if ($resultado) {
+        echo json_encode($resultado); //imprime el json
+    } else {
+        return 'No se consulto';
+    }
+}
+
+if ($tipo == 'valida_procesador') {
+    $resultado = $equipo->validaProcesador($_GET);
+    if ($resultado) {
+        echo json_encode($resultado); //imprime el json
+    } else {
+        return 'No se consulto';
+    }
+}
+
+if ($tipo == 'inserta_procesador') {
+    if ($equipo->insertaProcesador($_GET)) {
+        return 'Guardo';
+    } else {
+        return 'No se guardo';
+    }
+}
+
+if ($tipo == 'ultimo_procesador') {
+    $resultado = $equipo->ultimoProcesador($_GET);
+    if ($resultado) {
+        echo json_encode($resultado); //imprime el json
+    } else {
+        return 'No se consulto';
+    }
+}

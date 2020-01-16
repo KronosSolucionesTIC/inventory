@@ -5,7 +5,6 @@
     <div class="col-md-12">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Inicio</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Equipos</li>
             </ol>
         </nav>
@@ -81,3 +80,5 @@
 <?php include "modal_equipo.php";?>
 <?php include "modal_tipo_equipo.php";?>
 <?php include "modal_modelo.php";?>
+<?php include "modal_marca.php";?>
+<?php include "modal_procesador.php";?>

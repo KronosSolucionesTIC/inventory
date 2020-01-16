@@ -414,4 +414,172 @@
 	        console.log(data);
 	    });
 	};
+
+	//Funcion guardar marca
+	$("#btn_guardar_marca").click(function(){
+		validar_marca();
+		return false;
+	});
+
+	//Funcion para validar modelo
+	function validar_marca(){
+	 	nombre_marca = $("#nombre_marca").val();
+
+	    $.ajax({
+	      url: "../controlador/ajaxEquipo.php",
+	      data: 'nombre_marca='+nombre_marca+'&tipo=valida_marca',
+	      dataType: 'json'
+	    })
+	    .done(function(data) {
+	      //---------------------
+	      if(data[0]["cantidad"] >0){
+	      	alert('La marca ya esta registrada');
+	      	$("#nombre_marca").val("");
+	      	$("#nombre_marca").focus();
+	      } else {
+	      	crea_marca();
+	      }
+	    })
+	    .fail(function(data) {
+	      console.log(data);
+	    });
+	}
+
+	//Funcion para guardar el marca
+	function crea_marca(){
+	 	nombre_marca = $("#nombre_marca").val();
+
+	    $.ajax({
+	      url: "../controlador/ajaxEquipo.php",
+	      data: 'nombre_marca='+nombre_marca+'&tipo=inserta_marca'
+	    })
+	    .done(function(data) {
+	      //---------------------
+	      console.log(data);
+	      $("#modalMarca").removeClass("show");
+	      $("#modalMarca").removeClass("modal-backdrop");
+	      carga_marca();
+	      $("#nombre_marca").val("");
+	    })
+	    .fail(function(data) {
+	      console.log(data);
+	    })
+	     always(function(data) {
+	      console.log(data);
+	    });
+	}
+
+	//Funcion para cargar el registro guardado
+	function carga_marca(){
+
+	    $.ajax({
+	        url: "../controlador/ajaxEquipo.php",
+	        data: "tipo=ultima_marca",
+	        dataType: 'json'
+	    })
+	    .done(function(data) {
+
+	        $.each(data[0], function( key, value ) {
+	          	console.log(key+"--"+value);
+	          	if(key == "id_marca"){
+	          		optionValue = value;
+	          	}
+	          	if(key == "nombre_marca")
+            		optionText = value;
+	        });
+	        $('#fkID_marca').append(new Option(optionText, optionValue));
+	        $('#fkID_marca').val(optionValue);
+	        alert('Guardada la marca');
+	    })
+	    .fail(function(data) {
+	        console.log(data);
+	    })
+	    .always(function(data) {
+	        console.log(data);
+	    });
+	};
+
+	//Funcion guardar procesador
+	$("#btn_guardar_procesador").click(function(){
+		validar_procesador();
+		return false;
+	});
+
+	//Funcion para validar procesador
+	function validar_procesador(){
+	 	nombre_procesador = $("#nombre_procesador").val();
+
+	    $.ajax({
+	      url: "../controlador/ajaxEquipo.php",
+	      data: 'nombre_procesador='+nombre_procesador+'&tipo=valida_procesador',
+	      dataType: 'json'
+	    })
+	    .done(function(data) {
+	      //---------------------
+	      if(data[0]["cantidad"] >0){
+	      	alert('La procesador ya esta registrado');
+	      	$("#nombre_procesador").val("");
+	      	$("#nombre_procesador").focus();
+	      } else {
+	      	crea_procesador();
+	      }
+	    })
+	    .fail(function(data) {
+	      console.log(data);
+	    });
+	}
+
+	//Funcion para guardar el procesador
+	function crea_procesador(){
+	 	nombre_procesador = $("#nombre_procesador").val();
+
+	    $.ajax({
+	      url: "../controlador/ajaxEquipo.php",
+	      data: 'nombre_procesador='+nombre_procesador+'&tipo=inserta_procesador'
+	    })
+	    .done(function(data) {
+	      //---------------------
+	      console.log(data);
+	      $("#modalProcesador").removeClass("show");
+	      $("#modalProcesador").removeClass("modal-backdrop");
+	      carga_procesador();
+	      $("#nombre_procesador").val("");
+	    })
+	    .fail(function(data) {
+	        console.log(data);
+	    })
+	     always(function(data) {
+	      console.log(data);
+	    });
+	}
+
+	//Funcion para cargar el registro guardado
+	function carga_procesador(){
+
+	    $.ajax({
+	        url: "../controlador/ajaxEquipo.php",
+	        data: "tipo=ultimo_procesador",
+	        dataType: 'json'
+	    })
+	    .done(function(data) {
+
+	        $.each(data[0], function( key, value ) {
+	          	console.log(key+"--"+value);
+	          	if(key == "id_procesador"){
+	          		optionValue = value;
+	          	}
+	          	if(key == "nombre_procesador")
+            		optionText = value;
+	        });
+	        $('#fkID_procesador').append(new Option(optionText, optionValue));
+	        $('#fkID_procesador').val(optionValue);
+	        alert('Guardado el procesador');
+	    })
+	    .fail(function(data) {
+	        console.log(data);
+	    })
+	    .always(function(data) {
+	        console.log(data);
+	    });
+	};
 </script>
