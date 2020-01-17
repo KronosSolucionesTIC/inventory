@@ -74,8 +74,8 @@ echo date('Y-m-d H:i:s');
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" id="btn_imprimir"><i class="fas fa-print"></i></button>
-        <button type="button" class="btn btn-success"><i class="fas fa-file-excel"></i></button>
-        <button type="button" class="btn btn-danger"><i class="far fa-file-pdf"></i></button>
+        <button type="button" class="btn btn-success" id="btn_excel"><i class="fas fa-file-excel"></i></button>
+        <button type="button" class="btn btn-danger" id="btn_pdf"><i class="far fa-file-pdf"></i></button>
       </div>
     </div>
   </div>

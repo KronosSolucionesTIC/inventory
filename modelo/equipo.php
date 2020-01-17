@@ -208,7 +208,12 @@ class Equipo
     //Valida el serial
     public function validaSerial($data)
     {
-        $query  = "SELECT COUNT(*) AS cantidad FROM `equipo` WHERE serial_equipo =  '" . $data['serial_equipo'] . "' AND estado = 1";
+        if ($data['id_equipo'] == 0) {
+            $where = "";
+        } else {
+            $where = " AND id_equipo != '" . $data['id_equipo'] . "'";
+        }
+        $query  = "SELECT COUNT(*) AS cantidad FROM `equipo` WHERE serial_equipo =  '" . $data['serial_equipo'] . "' AND estado = 1" . $where;
         $result = mysqli_query($this->link, $query);
         $data   = array();
         while ($data[] = mysqli_fetch_assoc($result));

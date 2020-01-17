@@ -185,10 +185,18 @@
 	function validar_serial(){
 		var cadena = "";
 	 	serial_equipo = $("#serial_equipo").val();
+	 	accion = $("#btn_guardar_equipo").attr('data-accion');
+	 	if(accion=='editar'){
+			id_equipo = $("#id_equipo").val();
+	 	}
+	 	if(accion=='crear'){
+	 		id_equipo = '0';
+	 	}
+	 	console.log(id_equipo);
 
 	    $.ajax({
 	      url: "../controlador/ajaxEquipo.php",
-	      data: 'serial_equipo='+serial_equipo+'&tipo=valida_serial',
+	      data: 'serial_equipo='+serial_equipo+'&id_equipo='+id_equipo+'&tipo=valida_serial',
 	      dataType: 'json'
 	    })
 	    .done(function(data) {
@@ -606,4 +614,18 @@
      	window.location="../vista/index.php";
      	window.print();
 	}
+
+	//Funcion para exportar a excel
+	$("#btn_excel").click(function(){
+		var contenido= document.getElementById('tablaHistorico').innerHTML;
+		window.location = "../vista/equipos/excel_equipo.php?tabla="+contenido;
+    	return false;
+    });
+
+	//Funcion para exportar a PDF
+	$("#btn_pdf").click(function(){
+		var contenido= document.getElementById('tablaHistorico').innerHTML;
+		window.location = "../vista/equipos/pdf_equipo.php?tabla="+contenido;
+    	return false;
+    });
 </script>
