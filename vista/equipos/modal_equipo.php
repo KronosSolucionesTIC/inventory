@@ -76,7 +76,7 @@
           </div>
           <div class="form-group row">
             <div class="col-sm-12 text-center">
-              <button data-accion="crear" type="submit" class="btn btn-success" id="btn_guardar_equipo">Guardar</button>
+              <button data-accion="crear" type="button" class="btn btn-success" id="btn_guardar_equipo">Guardar</button>
             </div>
           </div>
         </form>

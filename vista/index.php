@@ -1,8 +1,6 @@
 <?php include 'head.php';
-      session_start();
-      $idUsuario = $_SESSION['id_usuario'];
-
-
+session_start();
+$idUsuario = $_SESSION['id_usuario'];
 
 ?>
     <body id="page-top">
@@ -43,7 +41,7 @@
                         </div>
                         <!-- Nav Item - Charts -->
                         <li class="nav-item">
-                            <a class="nav-link" id="menu_equipos">
+                            <a class="nav-link" id="menu_equipos" style="cursor: pointer">
                                 <i class="fas fa-desktop">
                                 </i>
                                 <span>

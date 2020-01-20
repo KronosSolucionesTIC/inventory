@@ -108,12 +108,12 @@ class equipoController extends equipo
         if (isset($listaEquipos)) {
             for ($i = 0; $i < sizeof($listaEquipos); $i++) {
                 echo '<tr>';
-                echo '<td class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["serial_equipo"] . '</td>';
-                echo '<td class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_tipo_equipo"] . '</td>';
-                echo '<td class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_modelo"] . '</td>';
-                echo '<td class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_marca"] . '</td>';
-                echo '<td class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_procesador"] . '</td>';
-                echo '<td class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_estado_equipo"] . '</td>';
+                echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["serial_equipo"] . '</td>';
+                echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_tipo_equipo"] . '</td>';
+                echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_modelo"] . '</td>';
+                echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_marca"] . '</td>';
+                echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_procesador"] . '</td>';
+                echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_estado_equipo"] . '</td>';
                 echo '<td><button type="button" class="btn btn-warning" data-target="#modalEquipo" data-toggle="modal" name="btn_editar" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '"><i class="fas fa-pen-square"></i></i></button> <button type="button" class="btn btn-danger" name="btn_eliminar" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '" data-toggle="modal" data-target="#eliminarModal"><i class="fas fa-trash-alt"></i></button></td>';
                 echo '</tr>';
             }

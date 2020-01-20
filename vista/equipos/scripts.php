@@ -228,10 +228,8 @@
 	    })
 	    .done(function(data) {
 	      //---------------------
-	      console.log(data);
-	      alert('Guardado correctamente');
-	      location.reload();
-
+	      alertify.success('Creado correctamente');
+		  setTimeout('cargar_sitio()',1000);
 	    })
 	    .fail(function(data) {
 	      console.log(data);
@@ -294,9 +292,8 @@
 	    .done(function(data) {
 	      //---------------------
 	      console.log(data);
-	      alert('Actualizado correctamente');
-	      location.reload();
-
+	      alertify.success('Editado correctamente');
+		  setTimeout('cargar_sitio()',1000);
 	    })
 	    .fail(function(data) {
 	      console.log(data);
@@ -327,9 +324,8 @@
 	    .done(function(data) {
 	      //---------------------
 	      console.log(data);
-	      alert('Eliminado correctamente');
-	      location.reload();
-
+	      alertify.success('Eliminado correctamente');
+		  setTimeout('cargar_sitio()',1000);
 	    })
 	    .fail(function(data) {
 	      console.log(data);
@@ -628,4 +624,17 @@
 		window.location = "../vista/equipos/pdf_equipo.php?tabla="+contenido;
     	return false;
     });
+
+	//Funcion para retroceder Miga de pan
+    $("#miga_equipo").click(function(){
+        $('#tabla').load('equipos/index.php');
+    });
+
+    //Funcion para cargar sitio
+    function cargar_sitio(){
+  		$("#modalEquipo").removeClass("show");
+ 		$('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
+  		$('.modal-backdrop').remove();//eliminamos el backdrop del modal
+  		$('#tabla').load('equipos/index.php');
+    }
 </script>

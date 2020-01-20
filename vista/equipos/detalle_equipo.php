@@ -9,7 +9,7 @@ $datosEquipo = $equipo->getDatosEquipoID($_GET["id_equipo"]);
     <div class="col-md-12">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-            	<li class="breadcrumb-item" aria-current="page"><a href="">Equipos</a></li>
+            	<li class="breadcrumb-item" aria-current="page" id="miga_equipo"><ins class="text-primary" style="cursor: pointer">Equipos</ins></li>
                 <li class="breadcrumb-item active" aria-current="page">Detalle de equipo</li>
             </ol>
         </nav>
