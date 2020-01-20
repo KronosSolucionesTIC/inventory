@@ -10,13 +10,23 @@
         <!-- Page level custom scripts -->
         <script src="componentes/js/demo/chart-area-demo.js">
         </script>
+
         
  </body>
  </html>
  <script type="text/javascript">
     //esta cargando el archivo tabla.php en el div tabla
     $(document).ready(function(){
-        $('#tabla').load('Componentes/tabla.php')
+        //$('#tabla').load('usuario/Vusuario.php')
     });
+
+    $("#menu_usuarios").click(function(){
+        $('#tabla').load('usuario/Vusuario.php');
+    });
+
+    $("#menu_equipos").click(function(){
+        $('#tabla').load('equipos/index.php');
+    });
+
 
 </script>

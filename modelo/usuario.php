@@ -17,7 +17,10 @@ class Usuario
     //Trae todos los usuario registrados
     public function getUsuario()
     {
-        $query  = "SELECT * FROM usuario";
+        $query  = "select *,CONCAT(nombres_persona, ' ', apellidos_persona) as nombres, nombre_cargo FROM usuario
+                    INNER JOIN persona on persona.id_persona = usuario.fkID_persona
+                    INNER JOIN cargo on cargo.id_cargo = persona.fkID_cargo
+                    WHERE usuario.estado = 1 AND persona.estado = 1";
         $result = mysqli_query($this->link, $query);
         $data   = array();
         while ($data[] = mysqli_fetch_assoc($result));
@@ -25,10 +28,13 @@ class Usuario
         return $data;
     }
 
-    //Trae todos CIUU
-    public function getCIIU()
+    //Traer un usuario registrados
+    public function consultaUsuario($data)
     {
-        $query  = "SELECT * FROM tb_ciiucode";
+        $query  = "select *,CONCAT(nombres_persona, ' ', apellidos_persona) as nombres, nombre_cargo FROM usuario
+                    INNER JOIN persona on persona.id_persona = usuario.fkID_persona
+                    INNER JOIN cargo on cargo.id_cargo = persona.fkID_cargo
+                    WHERE id_usuario = '" . $data['id_usuario'] . "'";
         $result = mysqli_query($this->link, $query);
         $data   = array();
         while ($data[] = mysqli_fetch_assoc($result));
@@ -36,10 +42,12 @@ class Usuario
         return $data;
     }
 
-    //Trae todos sectores
-    public function getSector()
+    //Traer datos del usuario 
+    public function consultaDatosUsuario($data)
     {
-        $query  = "SELECT * FROM tb_sectorbusiness";
+        $query  = "select nombre_cargo, documento_persona as nombre_usuario, documento_persona as pass_usuario   FROM persona
+                    INNER JOIN cargo on cargo.id_cargo = persona.fkID_cargo
+                    WHERE id_persona = '" . $data['id_usuario'] . "'";
         $result = mysqli_query($this->link, $query);
         $data   = array();
         while ($data[] = mysqli_fetch_assoc($result));
@@ -47,10 +55,10 @@ class Usuario
         return $data;
     }
 
-    //Trae todos los tamaños
-    public function getTamano()
+    //Consulta el ultimo ID de tipo equipo
+    public function ultimoEmpleado()
     {
-        $query  = "SELECT * FROM tb_typecomp";
+        $query  = "select id_persona,CONCAT(documento_persona,' - ',  nombres_persona,' ', apellidos_persona) As persona FROM `persona` ORDER BY `id_persona` DESC LIMIT 1";
         $result = mysqli_query($this->link, $query);
         $data   = array();
         while ($data[] = mysqli_fetch_assoc($result));
@@ -58,32 +66,10 @@ class Usuario
         return $data;
     }
 
-    //Trae todos los departamentos
-    public function getDpto()
-    {
-        $query  = "SELECT * FROM tb_departments";
-        $result = mysqli_query($this->link, $query);
-        $data   = array();
-        while ($data[] = mysqli_fetch_assoc($result));
-        array_pop($data);
-        return $data;
-    }
-
-    //Trae todos los municipios
-    public function getMuni()
-    {
-        $query  = "SELECT * FROM tb_municip";
-        $result = mysqli_query($this->link, $query);
-        $data   = array();
-        while ($data[] = mysqli_fetch_assoc($result));
-        array_pop($data);
-        return $data;
-    }
-
-    //Crea un nuevo cliente
-    public function newClient($data)
-    {
-        $query  = "INSERT INTO tb_client (business_name,subscriber,department,municipality) VALUES ('" . $data['business_name'] . "','" . $data['subscriber'] . "','" . $data['department'] . "','" . $data['municipality'] . "')";
+    //Crea un nuevo usuario
+    public function insertaUsuario($data)
+    {   
+        $query  = "insert into `usuario`(`nombre_usuario`, `pass_usuario`, `fkID_persona`) VALUES ('" . $data['nombre_usuario'] . "',sha1( '" . $data['pass_usuario'] . "'), '" . $data['fkID_persona'] . "')";
         $result = mysqli_query($this->link, $query);
         if (mysqli_affected_rows($this->link) > 0) {
             return true;
@@ -92,42 +78,98 @@ class Usuario
         }
     }
 
-    //Crea un nuevo usuario
-    public function newUser($data)
-    {
-        //Genera clave aleatoria
-        $cantidad_car = 8;
-        $cadena_base  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-        $cadena_base .= '0123456789';
-        $cadena_base .= '!@#%^&*()_,./<>?;:[]{}\|=+';
-
-        $password = '';
-        $limite   = strlen($cadena_base) - 1;
-
-        for ($i = 0; $i < $cantidad_car; $i++) {
-            $password .= $cadena_base[rand(0, $limite)];
-        }
-        //Genera clave aleatoria
-
-        $query  = "INSERT INTO usuario (usuarioNombre,password,email) VALUES ('" . $data['subscriber'] . "','" . $password . "','" . $data['email'] . "')";
+    //Crea un nuevo empleado
+    public function insertaEmpleado($data)
+    {   
+        $query  = "insert into `persona`(`nombres_persona`, `apellidos_persona`, `documento_persona`, `telefono_persona`, `celular_persona`, `email_persona`, `fkID_proyecto`, `fkID_territorial`, `fkID_cetap`, `fkID_cargo`, `fkID_area`, `fkID_tipo_persona`) VALUES ('" . strtoupper($data['nombre_empleado']) . "','" . strtoupper($data['apellido_empleado']) ."', '" . strtoupper($data['cedula_empleado']) ."','" . strtoupper($data['telefono_empleado']) ."','" . $data['celular_empleado'] ."','" . strtoupper($data['email_empleado']) ."','" . $data['fkID_proyecto'] ."','" . $data['fkID_territorial'] ."', 1 ,'" . $data['fkID_cargo'] ."',1,1)";
         $result = mysqli_query($this->link, $query);
         if (mysqli_affected_rows($this->link) > 0) {
-            //Envia correo
-            $cuerpo = "Bienvenido al aplicativo a continuacion se listan datos de acceso:";
-            $cuerpo = $cuerpo . "Usuario: " . $data['subscriber'];
-            $cuerpo = $cuerpo . "Contraseña: " . $password;
-            $this->enviarMail($data['email'], "usuarioNombre y password", $cuerpo);
-            $this->enviarMail($data['email2'], "usuarioNombre y password", $cuerpo);
             return true;
         } else {
             return false;
         }
     }
 
-    //Crea un nuevo usuario
-    public function newContact($data)
+    //Trae todas los empleados
+    public function getPersona()
     {
-        $query  = "INSERT INTO tb_contact (name) VALUES ('" . $data['nomContacto'] . "')";
+        $query  = "select id_persona, CONCAT(documento_persona,' - ',  nombres_persona,' ', apellidos_persona) As persona FROM `persona` WHERE estado=1 and fkID_cargo=1 OR fkID_cargo=2";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Trae los proyectos
+    public function getProyecto()
+    {
+        $query  = "select * FROM `proyecto` WHERE estado=1";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Trae las territoriales
+    public function getTerritorial($data)
+    {
+        $query  = "select id_territorial,nombre_territorial FROM `territorial_proyecto` 
+                    INNER join territorial on id_territorial=fkID_territorial
+                    INNER JOIN proyecto on id_proyecto=fkID_proyecto
+                    WHERE territorial_proyecto.estado=1 and id_proyecto= '" . $data['id_territorial'] . "'";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    public function getTerritoriales()
+    {
+        $query  = "select id_territorial,nombre_territorial FROM territorial
+                    WHERE estado=1 ";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Trae los cargos
+    public function getCargo()
+    {
+        $query  = "select * FROM `cargo` WHERE estado=1 AND id_cargo=1 or id_cargo=2 or id_cargo=3";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Edita Usuario
+    public function editaUsuario($data)
+    {
+        if ($data['pass_usuario']===$data['pass_antiguo']) {
+            $r="";
+        } else {
+            $r=",pass_usuario = sha1('" . $data['pass_usuario'] . "')";
+        }
+        
+        $query  = "UPDATE usuario SET nombre_usuario = '" . $data['nombre_usuario'] . "' $r WHERE id_usuario = '" . $data['id_usuario'] . "'";
+        $result = mysqli_query($this->link, $query);
+        if (mysqli_affected_rows($this->link) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //Elimina logico un usuario
+    public function eliminaLogicoUsuario($data)
+    {
+        $query  = "UPDATE usuario SET estado = 2 WHERE id_usuario = '" . $data['id_usuario'] . "'";
         $result = mysqli_query($this->link, $query);
         if (mysqli_affected_rows($this->link) > 0) {
             return true;
@@ -156,7 +198,7 @@ class Usuario
     {
         if (!empty($usuarioNombre)) {
             if (!empty($password)) {
-                $query  = "SELECT * FROM usuario WHERE nombre_usuario ='" . $usuarioNombre . "' AND pass_usuario='" . $password . "'";
+                $query  = "SELECT * FROM usuario WHERE nombre_usuario ='" . $usuarioNombre . "' AND pass_usuario=sha1('" . $password . "')";
                 $result = mysqli_query($this->link, $query);
                 $data   = array();
                 while ($data[] = mysqli_fetch_assoc($result));

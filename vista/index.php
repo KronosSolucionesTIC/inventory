@@ -1,4 +1,10 @@
-<?php include 'head.php';?>
+<?php include 'head.php';
+      session_start();
+      $idUsuario = $_SESSION['id_usuario'];
+
+
+
+?>
     <body id="page-top">
         <!-- Page Wrapper -->
         <div id="wrapper">
@@ -37,7 +43,7 @@
                         </div>
                         <!-- Nav Item - Charts -->
                         <li class="nav-item">
-                            <a class="nav-link" href="charts.html">
+                            <a class="nav-link" id="menu_equipos">
                                 <i class="fas fa-desktop">
                                 </i>
                                 <span>
@@ -57,32 +63,13 @@
                         </li>
                         <!-- Nav Item - Pages Collapse Menu -->
                         <li class="nav-item">
-                            <a aria-controls="collapseTwo" aria-expanded="true" class="nav-link collapsed" data-target="#collapseTwo" data-toggle="collapse" href="#">
+                            <a class="nav-link">
                                 <i class="fas fa-user-check">
                                 </i>
                                 <span>
                                     Asignación
                                 </span>
                             </a>
-                            <div aria-labelledby="headingTwo" class="collapse" data-parent="#accordionSidebar" id="collapseTwo">
-                                <div class="bg-white py-2 collapse-inner rounded">
-                                    <h6 class="collapse-header">
-                                        Tipos de asignación:
-                                    </h6>
-                                    <a class="collapse-item" href="buttons.html">
-                                        Por lotes
-                                    </a>
-                                    <a class="collapse-item" href="cards.html">
-                                        Asignación a territoriales
-                                    </a>
-                                    <a class="collapse-item" href="buttons.html">
-                                        Asignación a técnicos
-                                    </a>
-                                    <a class="collapse-item" href="buttons.html">
-                                        Asignación a funcionarios
-                                    </a>
-                                </div>
-                            </div>
                         </li>
                         <!-- Nav Item - Charts -->
                         <li class="nav-item">
@@ -119,10 +106,7 @@
                                         Personal:
                                     </h6>
                                     <a class="collapse-item" href="utilities-color.html">
-                                        Coordinador
-                                    </a>
-                                    <a class="collapse-item" href="utilities-border.html">
-                                        Técnico
+                                        Empleado
                                     </a>
                                     <a class="collapse-item" href="utilities-animation.html">
                                         Funcionario
@@ -166,14 +150,14 @@
                             <li class="nav-item dropdown no-arrow">
                                 <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="userDropdown" role="button">
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                        Usuario
+                                        <?php echo $idUsuario; ?>
                                     </span>
                                     <img class="img-profile rounded-circle" src="https://cdn.icon-icons.com/icons2/1248/PNG/128/user_84308.png">
                                     </img>
                                 </a>
                                 <!-- Dropdown - User Information -->
                                 <div aria-labelledby="userDropdown" class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" id="menu_usuarios">
                                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400">
                                         </i>
                                         Usuario
@@ -243,13 +227,5 @@
                 </div>
             </div>
         </div>
-
-        <script type="text/javascript">
-    //esta cargando el archivo tabla.php en el div tabla
-    $(document).ready(function(){
-        $('#tabla').load('equipos/index.php')
-    });
-
-</script>
   <?php include 'footer.php';?>
 

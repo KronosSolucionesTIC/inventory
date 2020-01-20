@@ -14,8 +14,17 @@
     <!-- Estilo del boostrap V 3.4.1 -->
     <link rel="stylesheet" type="text/css" href="../../librerias/bootstrap/css/bootstrap.css">
     <!-- Estilo del alertifyjs -->
-    <link rel="stylesheet" type="text/css" href="../../librerias/alertifyjs/css/alertify.css">
-    <link rel="stylesheet" type="text/css" href="../../librerias/alertifyjs/css/themes/default.css">
+    <!-- JavaScript -->
+
+
+<!-- CSS -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+<!-- Default theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+<!-- Semantic UI theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+<!-- Bootstrap theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
     <!-- Estilo del login -->
     <link href="../../css/estilos.css" rel="stylesheet"/>
     <!-- Custom fonts for this template-->
@@ -28,6 +37,7 @@
     <script src="componentes/vendor/jquery-easing/jquery.easing.min.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="componentes/js/sb-admin-2.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
     <!-- Datatable -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
