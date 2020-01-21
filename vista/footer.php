@@ -11,7 +11,7 @@
         <script src="componentes/js/demo/chart-area-demo.js">
         </script>
 
-        
+
  </body>
  </html>
  <script type="text/javascript">
@@ -24,8 +24,14 @@
         $('#tabla').load('usuario/Vusuario.php');
     });
 
+    //Redireccion a index de equipos
     $("#menu_equipos").click(function(){
         $('#tabla').load('equipos/index.php');
+    });
+
+    //Redireccion a index de funcionario
+    $("#menu_funcionarios").click(function(){
+        $('#tabla').load('funcionarios/index.php');
     });
 
 

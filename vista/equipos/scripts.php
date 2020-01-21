@@ -263,6 +263,9 @@
 	        $.each(data[0], function( key, value ) {
 	          console.log(key+"--"+value);
 	          $("#"+key).val(value);
+	          if(key == 'fkID_procesador' && value == 7){
+	          	$('#fkID_procesador').attr('disabled',true);
+	          }
 	        });
 
 	        id_equipo = data.id_equipo;

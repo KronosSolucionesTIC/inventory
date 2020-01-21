@@ -106,8 +106,10 @@ $idUsuario = $_SESSION['id_usuario'];
                                     <a class="collapse-item" href="utilities-color.html">
                                         Empleado
                                     </a>
-                                    <a class="collapse-item" href="utilities-animation.html">
-                                        Funcionario
+                                    <a class="collapse-item" id="menu_funcionarios" style="cursor: pointer">
+                                        <span>
+                                            Funcionario
+                                        </span>
                                     </a>
                                 </div>
                             </div>
