@@ -184,4 +184,112 @@ class Funcionario
         array_pop($data);
         return $data;
     }
+
+    //Valida el area
+    public function validaArea($data)
+    {
+        $query  = "SELECT COUNT(*) AS cantidad FROM `area` WHERE nombre_area =  '" . $data['nombre_area'] . "' AND estado = 1";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Crea una nueva area
+    public function insertaArea($data)
+    {
+        //Pasa el nombre a mayusculas
+        $nombre = strtoupper($data['nombre_area']);
+        $query  = "INSERT INTO area (nombre_area) VALUES ('" . $nombre . "')";
+        $result = mysqli_query($this->link, $query);
+        if (mysqli_affected_rows($this->link) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //Consulta el ultimo ID de area
+    public function ultimaArea()
+    {
+        $query  = "SELECT id_area,nombre_area FROM area ORDER BY area.`id_area` DESC LIMIT 1";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Valida el proyecto
+    public function validaProyecto($data)
+    {
+        $query  = "SELECT COUNT(*) AS cantidad FROM `proyecto` WHERE nombre_proyecto =  '" . $data['nombre_proyecto'] . "' AND estado = 1";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Crea una nueva proyecto
+    public function insertaProyecto($data)
+    {
+        //Pasa el nombre a mayusculas
+        $nombre = strtoupper($data['nombre_proyecto']);
+        $query  = "INSERT INTO proyecto (nombre_proyecto) VALUES ('" . $nombre . "')";
+        $result = mysqli_query($this->link, $query);
+        if (mysqli_affected_rows($this->link) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //Consulta el ultimo ID de proyecto
+    public function ultimoProyecto()
+    {
+        $query  = "SELECT id_proyecto,nombre_proyecto FROM proyecto ORDER BY proyecto.`id_proyecto` DESC LIMIT 1";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Valida el cetap
+    public function validaCetap($data)
+    {
+        $query  = "SELECT COUNT(*) AS cantidad FROM `cetap` WHERE nombre_cetap =  '" . $data['nombre_cetap'] . "' AND estado = 1";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Crea una nueva cetap
+    public function insertaCetap($data)
+    {
+        //Pasa el nombre a mayusculas
+        $nombre = strtoupper($data['nombre_cetap']);
+        $query  = "INSERT INTO cetap (nombre_cetap) VALUES ('" . $nombre . "')";
+        $result = mysqli_query($this->link, $query);
+        if (mysqli_affected_rows($this->link) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //Consulta el ultimo ID de cetap
+    public function ultimaCetap()
+    {
+        $query  = "SELECT id_cetap,nombre_cetap FROM cetap ORDER BY cetap.`id_cetap` DESC LIMIT 1";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
 }

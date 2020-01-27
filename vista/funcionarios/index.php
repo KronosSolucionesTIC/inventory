@@ -79,3 +79,6 @@
 </div>
 <?php include "modal_funcionario.php";?>
 <?php include "modal_territorial.php";?>
+<?php include "modal_area.php";?>
+<?php include "modal_proyecto.php";?>
+<?php include "modal_cetap.php";?>

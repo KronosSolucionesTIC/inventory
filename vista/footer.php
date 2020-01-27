@@ -27,6 +27,7 @@
     //Redireccion a index de equipos
     $("#menu_equipos").click(function(){
         $('#tabla').load('equipos/index.php');
+        $("#titulo").html('Equipos');
     });
 
     //Redireccion a index de funcionario
@@ -34,5 +35,10 @@
         $('#tabla').load('funcionarios/index.php');
     });
 
+    //Redireccion a index de informes
+    $("#informe_total").click(function(){
+        $('#tabla').load('informes/inventario_total.php');
+        $("#titulo").html('Informes');
+    });
 
 </script>

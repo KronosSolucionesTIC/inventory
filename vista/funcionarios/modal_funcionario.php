@@ -1,6 +1,6 @@
 <!-- Modal -->
-<div class="modal fade" id="modalFuncionario" tabindex="-1" role="dialog" aria-labelledby="modalFuncionarioLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<div class="modal fade" id="modalFuncionario" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="modalFuncionarioLabel">Crear Funcionario</h5>
@@ -57,6 +57,18 @@
             </div>
           </div>
           <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-3 col-form-label">Proyecto:</label>
+            <div class="col-sm-7">
+              <select class="form-control" id="fkID_proyecto" required="true">
+                <?php $funcionario->getSelectProyecto();?>
+              </select>
+            </div>
+            <div class="col-sm-2 text-danger">
+              *
+              <button type="button" class="btn btn-primary" data-target="#modalProyecto" data-toggle="modal"><i class="fas fa-plus"></i></button>
+            </div>
+          </div>
+          <div class="form-group row">
             <label for="inputEmail3" class="col-sm-3 col-form-label">Terrritorial:</label>
             <div class="col-sm-7">
               <select class="form-control" id="fkID_territorial" required="true">
@@ -89,19 +101,6 @@
             </div>
             <div class="col-sm-2 text-danger">
               *
-              <button type="button" class="btn btn-primary" data-target="#modalArea" data-toggle="modal"><i class="fas fa-plus"></i></button>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputEmail3" class="col-sm-3 col-form-label">Proyecto:</label>
-            <div class="col-sm-7">
-              <select class="form-control" id="fkID_proyecto" required="true">
-                <?php $funcionario->getSelectProyecto();?>
-              </select>
-            </div>
-            <div class="col-sm-2 text-danger">
-              *
-              <button type="button" class="btn btn-primary" data-target="#modalArea" data-toggle="modal"><i class="fas fa-plus"></i></button>
             </div>
           </div>
           <div class="form-group row">
@@ -119,6 +118,11 @@
           <div class="form-group row">
             <div class="col-sm-12 text-center">
               <button data-accion="crear" type="button" class="btn btn-success" id="btn_guardar_funcionario">Guardar</button>
+              <div class="progress" id="btn_guardando">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                  Guardando...
+                </div>
+              </div>
             </div>
           </div>
         </form>
@@ -138,9 +142,13 @@
       </div>
       <div class="modal-body">
         ¿Realmente desea eliminar el registro?
+        <div class="progress" id="btn_eliminando">
+          <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">Eliminando...
+          </div>
+        </div>
       </div>
       <div class="modal-footer text-center">
-        <button type="button" class="btn btn-warning" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-warning" data-dismiss="modal" id="btn_cancelar">Cancelar</button>
         <button type="button" class="btn btn-danger" id="btn_eliminar_funcionario" name="btn_eliminar_funcionario">Eliminar</button>
       </div>
     </div>

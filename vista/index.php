@@ -25,7 +25,7 @@ $idUsuario = $_SESSION['id_usuario'];
                 <hr class="sidebar-divider my-0">
                     <!-- Nav Item - Dashboard -->
                     <li class="nav-item active">
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="index.php">
                             <i class="fas fa-home">
                             </i>
                             <span>
@@ -79,15 +79,32 @@ $idUsuario = $_SESSION['id_usuario'];
                                 </span>
                             </a>
                         </li>
-                        <!-- Nav Item - Charts -->
+                         <!-- Nav Item - Utilities Collapse Menu -->
                         <li class="nav-item">
-                            <a class="nav-link" href="charts.html">
-                                <i class="fas fa-chart-bar">
+                            <a aria-controls="collapseInformes" aria-expanded="true" class="nav-link collapsed" data-target="#collapseInformes" data-toggle="collapse" href="#">
+                                <i class="fas fa-cog">
                                 </i>
                                 <span>
                                     Informes
                                 </span>
                             </a>
+                            <div aria-labelledby="headingInformes" class="collapse" data-parent="#accordionSidebar" id="collapseInformes">
+                                <div class="bg-white py-2 collapse-inner rounded">
+                                    <h6 class="collapse-header">
+                                        Seleccione:
+                                    </h6>
+                                    <a class="collapse-item" id="informe_total" style="cursor: pointer">
+                                        <span>
+                                            Inventario total
+                                        </span>
+                                    </a>
+                                    <a class="collapse-item" id="menu_funcionarios" style="cursor: pointer">
+                                        <span>
+                                            Inventario x territorial
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
                         </li>
                         <!-- Nav Item - Utilities Collapse Menu -->
                         <li class="nav-item">
@@ -129,6 +146,7 @@ $idUsuario = $_SESSION['id_usuario'];
                 <div id="content">
                     <!-- Topbar -->
                     <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                        <div class="titulo" id="titulo">Inicio</div>
                         <!-- Sidebar Toggle (Topbar) -->
                         <button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop">
                             <i class="fa fa-bars">

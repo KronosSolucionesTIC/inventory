@@ -36,6 +36,8 @@
         $("#modalFuncionarioLabel").text("Crear funcionario");
         $("#btn_guardar_funcionario").attr("data-accion","crear");
         $("#form_funcionario")[0].reset();
+        $("#btn_guardando").hide();
+        limpiar_campos();
     });
 
     //Funcion guardar funcionario
@@ -54,32 +56,73 @@
 
     //Campos incompletos
     function campos_incompletos(){
-        var bandera = true;
-        if($("#nombres_persona").val().length == 0){
-            bandera = false;
-        }
-        if($("#apellidos_persona").val().length == 0){
-            bandera = false;
-        }
-        if($('#documento_persona').val().trim() == 0){
-            bandera = false;
-        }
-        if($('#fkID_territorial').val().trim() == 0){
-            bandera = false;
-        }
-        if($('#fkID_area').val().trim() == 0){
-            bandera = false;
-        }
-        if($('#fkID_proyecto').val().trim() == 0){
-            bandera = false;
-        }
-        if(bandera == false){
-            alert('Complete el formulario');
-            return false;
-        } else {
-            return true;
-        }
+      var bandera = true;
+      if($("#nombres_persona").val().length == 0){
+        bandera = false;
+        marcar_campos("#nombres_persona", 'incorrecto');
+      } else {
+        marcar_campos("#nombres_persona", 'correcto');
+      }
+      if($("#apellidos_persona").val().length == 0){
+        bandera = false;
+        marcar_campos("#apellidos_persona", 'incorrecto');
+      } else {
+        marcar_campos("#apellidos_persona", 'correcto');
+      }
+      if($("#documento_persona").val().length == 0){
+        bandera = false;
+        marcar_campos("#documento_persona", 'incorrecto');
+      } else {
+        marcar_campos("#documento_persona", 'correcto');
+      }
+      if($('#fkID_territorial').val().trim() == 0){
+        bandera = false;
+        marcar_campos("#fkID_territorial", 'incorrecto');
+      } else {
+        marcar_campos("#fkID_territorial", 'correcto');
+      }
+      if($('#fkID_area').val().trim() == 0){
+        bandera = false;
+        marcar_campos("#fkID_area", 'incorrecto');
+      } else {
+        marcar_campos("#fkID_area", 'correcto');
+      }
+      if($('#fkID_proyecto').val().trim() == 0){
+        bandera = false;
+        marcar_campos("#fkID_proyecto", 'incorrecto');
+      } else {
+        marcar_campos("#fkID_proyecto", 'correcto');
+      }
+      if($('#fkID_tipo_persona').val().trim() == 0){
+        bandera = false;
+        marcar_campos("#fkID_tipo_persona", 'incorrecto');
+      } else {
+        marcar_campos("#fkID_tipo_persona", 'correcto');
+      }
+      if(bandera == false){
+        alertify.alert(
+          'Campos incompletos',
+          'Los campos con * son obligatorios',
+          function(){
+            alertify.error('Campos vacios');
+        });
+        return false;
+      } else {
+        return true;
+      }
     }
+
+  //Funcion para marcar los campos
+  function marcar_campos(campo, tipo){
+    if(tipo == 'correcto'){
+      $(campo).removeClass('is-invalid');
+      $(campo).addClass('is-valid');
+    }
+    if(tipo == 'incorrecto'){
+      $(campo).removeClass('is-valid');
+      $(campo).addClass('is-invalid');
+    }
+  }
 
     //Funcion para guardar el funcionario
     function crea_funcionario(){
@@ -101,6 +144,8 @@
         })
         .done(function(data) {
           //---------------------
+          $("#btn_guardar_funcionario").hide();
+          $("#btn_guardando").show();
           alertify.success('Creado correctamente');
           setTimeout('cargar_sitio()',1000);
         })
@@ -120,13 +165,8 @@
         $('#tabla').load('funcionarios/index.php');
     }
 
-    //Funcion guardar equipo
-    $("[name*='btn_editar']").click(function(){
-        id_funcionario = $(this).attr('data-id-funcionario');
-        $("#modalFuncionarioLabel").text("Editar funcionario");
-        carga_funcionario(id_funcionario);
-        $("#btn_guardar_funcionario").attr("data-accion","editar");
-    });
+    //Carga eventos
+    carga_eventos();
 
     //Carga el funcionario por el ID
     function carga_funcionario(id_funcionario){
@@ -176,7 +216,8 @@
         })
         .done(function(data) {
           //---------------------
-          console.log(data);
+          $("#btn_guardar_funcionario").hide();
+          $("#btn_guardando").show();
           alertify.success('Editado correctamente');
           setTimeout('cargar_sitio()',1000);
         })
@@ -188,17 +229,6 @@
         });
     }
 
-    //Funcion eliminar equipo
-    $("[name*='btn_eliminar']").click(function(){
-        id_funcionario = $(this).attr('data-id-funcionario');
-        $("#btn_eliminar_funcionario").attr("data-id-funcionario",id_funcionario);
-    });
-
-    //Funcion eliminar funcionario
-    $("[name*='btn_eliminar_funcionario']").click(function(){
-        id_funcionario = $(this).attr('data-id-funcionario');
-        elimina_funcionario(id_funcionario);
-    });
 
     //Funcion para eliminar el funcionario
     function elimina_funcionario(id_persona){
@@ -208,7 +238,9 @@
         })
         .done(function(data) {
           //---------------------
-          console.log(data);
+          $("#btn_eliminar_funcionario").hide();
+          $("#btn_cancelar").hide();
+          $("#btn_eliminando").show();
           alertify.success('Eliminado correctamente');
           setTimeout('cargar_sitio()',1000);
         })
@@ -303,4 +335,309 @@
             console.log(data);
         });
     };
+
+    //Funcion guardar area
+    $("#btn_guardar_area").click(function(){
+        validar_area();
+        return false;
+    });
+
+    //Funcion para validar area
+    function validar_area(){
+        nombre_area = $("#nombre_area").val();
+
+        $.ajax({
+          url: "../controlador/ajaxFuncionario.php",
+          data: 'nombre_area='+nombre_area+'&tipo=valida_area',
+          dataType: 'json'
+        })
+        .done(function(data) {
+          //---------------------
+          if(data[0]["cantidad"] >0){
+            alert('El area ya esta registrada');
+            $("#nombre_area").val("");
+            $("#nombre_area").focus();
+          } else {
+            crea_area();
+          }
+        })
+        .fail(function(data) {
+          console.log(data);
+        });
+    }
+
+    //Funcion para guardar el area
+    function crea_area(){
+        nombre_area = $("#nombre_area").val();
+
+        $.ajax({
+          url: "../controlador/ajaxFuncionario.php",
+          data: 'nombre_area='+nombre_area+'&tipo=inserta_area'
+        })
+        .done(function(data) {
+          //---------------------
+          console.log(data);
+          $("#modalArea").removeClass("show");
+          $("#modalArea").removeClass("modal-backdrop");
+          carga_area();
+          $("#nombre_area").val("");
+        })
+        .fail(function(data) {
+          console.log(data);
+        })
+         always(function(data) {
+          console.log(data);
+        });
+    }
+
+    //Funcion para cargar el registro guardado
+    function carga_area(){
+
+        $.ajax({
+            url: "../controlador/ajaxFuncionario.php",
+            data: "tipo=ultima_area",
+            dataType: 'json'
+        })
+        .done(function(data) {
+
+            $.each(data[0], function( key, value ) {
+                console.log(key+"--"+value);
+                if(key == "id_area"){
+                    optionValue = value;
+                }
+                if(key == "nombre_area")
+                    optionText = value;
+            });
+            $('#fkID_area').append(new Option(optionText, optionValue));
+            $('#fkID_area').val(optionValue);
+            alert('Guardada el area');
+        })
+        .fail(function(data) {
+            console.log(data);
+        })
+        .always(function(data) {
+            console.log(data);
+        });
+    };
+
+    //Funcion guardar proyecto
+    $("#btn_guardar_proyecto").click(function(){
+        validar_proyecto();
+        return false;
+    });
+
+    //Funcion para validar proyecto
+    function validar_proyecto(){
+        nombre_proyecto = $("#nombre_proyecto").val();
+
+        $.ajax({
+          url: "../controlador/ajaxFuncionario.php",
+          data: 'nombre_proyecto='+nombre_proyecto+'&tipo=valida_proyecto',
+          dataType: 'json'
+        })
+        .done(function(data) {
+          //---------------------
+          if(data[0]["cantidad"] >0){
+            alert('El proyecto ya esta registrado');
+            $("#nombre_proyecto").val("");
+            $("#nombre_proyecto").focus();
+          } else {
+            crea_proyecto();
+          }
+        })
+        .fail(function(data) {
+          console.log(data);
+        });
+    }
+
+    //Funcion para guardar el proyecto
+    function crea_proyecto(){
+        nombre_proyecto = $("#nombre_proyecto").val();
+
+        $.ajax({
+          url: "../controlador/ajaxFuncionario.php",
+          data: 'nombre_proyecto='+nombre_proyecto+'&tipo=inserta_proyecto'
+        })
+        .done(function(data) {
+          //---------------------
+          console.log(data);
+          $("#modalProyecto").removeClass("show");
+          $("#modalProyecto").removeClass("modal-backdrop");
+          carga_proyecto();
+          $("#nombre_proyecto").val("");
+        })
+        .fail(function(data) {
+          console.log(data);
+        })
+         always(function(data) {
+          console.log(data);
+        });
+    }
+
+    //Funcion para cargar el registro guardado
+    function carga_proyecto(){
+
+        $.ajax({
+            url: "../controlador/ajaxFuncionario.php",
+            data: "tipo=ultimo_proyecto",
+            dataType: 'json'
+        })
+        .done(function(data) {
+
+            $.each(data[0], function( key, value ) {
+                console.log(key+"--"+value);
+                if(key == "id_proyecto"){
+                    optionValue = value;
+                }
+                if(key == "nombre_proyecto")
+                    optionText = value;
+            });
+            $('#fkID_proyecto').append(new Option(optionText, optionValue));
+            $('#fkID_proyecto').val(optionValue);
+            alert('Guardado el proyecto');
+        })
+        .fail(function(data) {
+            console.log(data);
+        })
+        .always(function(data) {
+            console.log(data);
+        });
+    };
+
+    //Funcion guardar cetap
+    $("#btn_guardar_cetap").click(function(){
+        validar_cetap();
+        return false;
+    });
+
+    //Funcion para validar cetap
+    function validar_cetap(){
+        nombre_cetap = $("#nombre_cetap").val();
+
+        $.ajax({
+          url: "../controlador/ajaxFuncionario.php",
+          data: 'nombre_cetap='+nombre_cetap+'&tipo=valida_cetap',
+          dataType: 'json'
+        })
+        .done(function(data) {
+          //---------------------
+          if(data[0]["cantidad"] >0){
+            alert('La cetap ya esta registrada');
+            $("#nombre_cetap").val("");
+            $("#nombre_cetap").focus();
+          } else {
+            crea_cetap();
+          }
+        })
+        .fail(function(data) {
+          console.log(data);
+        });
+    }
+
+    //Funcion para guardar el cetap
+    function crea_cetap(){
+        nombre_cetap = $("#nombre_cetap").val();
+
+        $.ajax({
+          url: "../controlador/ajaxFuncionario.php",
+          data: 'nombre_cetap='+nombre_cetap+'&tipo=inserta_cetap'
+        })
+        .done(function(data) {
+          //---------------------
+          console.log(data);
+          $("#modalCetap").removeClass("show");
+          $("#modalCetap").removeClass("modal-backdrop");
+          carga_cetap();
+          $("#nombre_cetap").val("");
+        })
+        .fail(function(data) {
+          console.log(data);
+        })
+         always(function(data) {
+          console.log(data);
+        });
+    }
+
+    //Funcion para cargar el registro guardado
+    function carga_cetap(){
+
+        $.ajax({
+            url: "../controlador/ajaxFuncionario.php",
+            data: "tipo=ultima_cetap",
+            dataType: 'json'
+        })
+        .done(function(data) {
+
+            $.each(data[0], function( key, value ) {
+                console.log(key+"--"+value);
+                if(key == "id_cetap"){
+                    optionValue = value;
+                }
+                if(key == "nombre_cetap")
+                    optionText = value;
+            });
+            $('#fkID_cetap').append(new Option(optionText, optionValue));
+            $('#fkID_cetap').val(optionValue);
+            alert('Guardada la CETAP');
+        })
+        .fail(function(data) {
+            console.log(data);
+        })
+        .always(function(data) {
+            console.log(data);
+        });
+    };
+
+    //Funcion editar
+    function evento_editar(){
+        //Funcion guardar equipo
+        $("[name*='btn_editar']").click(function(){
+            id_funcionario = $(this).attr('data-id-funcionario');
+            $("#modalFuncionarioLabel").text("Editar funcionario");
+            carga_funcionario(id_funcionario);
+            $("#btn_guardar_funcionario").attr("data-accion","editar");
+            $("#btn_guardando").hide();
+            limpiar_campos();
+        });
+    }
+
+    //Funcion eliminar
+    function evento_eliminar(){
+        //Funcion eliminar equipo
+        $("[name*='btn_eliminar']").click(function(){
+            id_funcionario = $(this).attr('data-id-funcionario');
+            $("#btn_eliminar_funcionario").attr("data-id-funcionario",id_funcionario);
+            $("#btn_eliminando").hide();
+        });
+
+        //Funcion eliminar funcionario
+        $("[name*='btn_eliminar_funcionario']").click(function(){
+            id_funcionario = $(this).attr('data-id-funcionario');
+            elimina_funcionario(id_funcionario);
+        });
+    }
+
+    //Funcion para pasar eventos
+    function carga_eventos(){
+        evento_editar();
+        evento_eliminar();
+    }
+
+    //Funcion para pasar eventos
+    $(".paginate_button").click(function(){
+        carga_eventos();
+    });
+
+    //Funcion para pasar eventos
+    $("[type*='search']").keypress(function(){
+        carga_eventos();
+    });
+
+  //Funcion para limpiar campos
+  function limpiar_campos(){
+    $("input").removeClass('is-invalid');
+    $("input").removeClass('is-valid');
+    $("select").removeClass('is-invalid');
+    $("select").removeClass('is-valid');
+  }
 </script>

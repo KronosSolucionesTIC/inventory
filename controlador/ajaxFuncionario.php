@@ -62,3 +62,81 @@ if ($tipo == 'ultima_territorial') {
         return 'No se consulto';
     }
 }
+
+if ($tipo == 'valida_area') {
+    $resultado = $funcionario->validaArea($_GET);
+    if ($resultado) {
+        echo json_encode($resultado); //imprime el json
+    } else {
+        return 'No se consulto';
+    }
+}
+
+if ($tipo == 'inserta_area') {
+    if ($funcionario->insertaArea($_GET)) {
+        return 'Guardo';
+    } else {
+        return 'No se guardo';
+    }
+}
+
+if ($tipo == 'ultima_area') {
+    $resultado = $funcionario->ultimaArea($_GET);
+    if ($resultado) {
+        echo json_encode($resultado); //imprime el json
+    } else {
+        return 'No se consulto';
+    }
+}
+
+if ($tipo == 'valida_proyecto') {
+    $resultado = $funcionario->validaProyecto($_GET);
+    if ($resultado) {
+        echo json_encode($resultado); //imprime el json
+    } else {
+        return 'No se consulto';
+    }
+}
+
+if ($tipo == 'inserta_proyecto') {
+    if ($funcionario->insertaProyecto($_GET)) {
+        return 'Guardo';
+    } else {
+        return 'No se guardo';
+    }
+}
+
+if ($tipo == 'ultimo_proyecto') {
+    $resultado = $funcionario->ultimoProyecto($_GET);
+    if ($resultado) {
+        echo json_encode($resultado); //imprime el json
+    } else {
+        return 'No se consulto';
+    }
+}
+
+if ($tipo == 'valida_cetap') {
+    $resultado = $funcionario->validaCetap($_GET);
+    if ($resultado) {
+        echo json_encode($resultado); //imprime el json
+    } else {
+        return 'No se consulto';
+    }
+}
+
+if ($tipo == 'inserta_cetap') {
+    if ($funcionario->insertaCetap($_GET)) {
+        return 'Guardo';
+    } else {
+        return 'No se guardo';
+    }
+}
+
+if ($tipo == 'ultima_cetap') {
+    $resultado = $funcionario->ultimaCetap($_GET);
+    if ($resultado) {
+        echo json_encode($resultado); //imprime el json
+    } else {
+        return 'No se consulto';
+    }
+}
