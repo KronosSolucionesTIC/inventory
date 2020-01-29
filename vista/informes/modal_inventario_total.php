@@ -1,30 +1,12 @@
 <!-- Modal -->
-<?php include "scripts.php";?>
-<?php include "../../controlador/informes_controller.php";?>
-<?php $informes = new informesController();?>
 <?php
-//Variable para el WHERE
-$where = '';
-
-//Valida filtro proyecto
-if (isset($_GET["filtro_proyecto"])) {
-    if ($_GET["filtro_proyecto"] != '') {
-        $where = "fkID_proyecto = '" . $_GET["filtro_proyecto"] . "'";
-    }
-} else {
-    $where = '';
-}
-
-if ($where != '') {
-    $where = " AND " . $where;
-}
 setlocale(LC_ALL, "es_ES");
 ?>
-<div class="modal show" id="modalInventarioScrollable" tabindex="-1" role="dialog" aria-labelledby="modalInventarioScrollableTitle" aria-hidden="true">
+<div class="modal fade" id="modalInventarioScrollable" tabindex="-1" role="dialog" aria-labelledby="modalInventarioScrollableTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalInventarioScrollableTitle">Inventario total <?php echo $where; ?></h5>
+        <h5 class="modal-title" id="modalInventarioScrollableTitle">Inventario total </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -73,8 +55,8 @@ echo date('Y-m-d H:i:s');
       <th scope="col">Serial</th>
     </tr>
   </thead>
-  <tbody>
-    <?php $informes->getTablaInventarioTotal($where);?>
+  <tbody id="contenidoHistorico">
+    <?php $informes->getTablaInventarioTotal('');?>
     <tr>
       <td scope="col" colspan="10" class="text-right"><p><small><em>Fecha y hora impresion :<?php echo date('Y-m-d H:i:s'); ?></small></em></p></td>
     </tr>

@@ -67,3 +67,4 @@
     </div>
   </div>
 </form>
+<?php include "modal_inventario_total.php";?>
