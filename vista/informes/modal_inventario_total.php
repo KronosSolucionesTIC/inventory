@@ -13,56 +13,52 @@ setlocale(LC_ALL, "es_ES");
       </div>
       <div class="modal-body">
         <div class="row">
-          <div id="tablaHistorico">
-<table class="table table-bordered" >
-  <thead>
-    <tr>
-      <th scope="col" colspan="2" class="text-center">
-        <img src="../imagenes/logo_lunel.png" class="img-fluid">
-      </th>
-      <th scope="col" colspan="6" class="text-center">
-        <h4>
-          <strong>
-            Software Inventory<br>
-            Inventario total
-          </strong>
-        </h4>
-      </th>
-      <th scope="col" colspan="2" class="text-center">
-        <strong>
-            Fecha y hora impresion:<br>
-            <?php
-echo date('Y-m-d H:i:s');
-?>
-        </strong>
-      </th>
-    </tr>
-    <tr>
-      <th scope="col" colspan="10" class="text-center">
-
-      </th>
-    </tr>
-    <tr>
-      <th scope="col">Proyecto</th>
-      <th scope="col">Territorial</th>
-      <th scope="col">Area</th>
-      <th scope="col">Persona a cargo</th>
-      <th scope="col">Estado</th>
-      <th scope="col">Tipo de equipo</th>
-      <th scope="col">Modelo</th>
-      <th scope="col">Marca</th>
-      <th scope="col">Procesador</th>
-      <th scope="col">Serial</th>
-    </tr>
-  </thead>
-  <tbody id="contenidoHistorico">
-    <?php $informes->getTablaInventarioTotal('');?>
-    <tr>
-      <td scope="col" colspan="10" class="text-right"><p><small><em>Fecha y hora impresion :<?php echo date('Y-m-d H:i:s'); ?></small></em></p></td>
-    </tr>
-  </tbody>
-</table>
-</div>
+          <div id="tablaInventario">
+            <table class="table table-bordered" >
+              <thead>
+                <tr>
+                  <th scope="col" colspan="2" class="text-center">
+                    <img src="../imagenes/logo_lunel.png" class="img-fluid">
+                  </th>
+                  <th scope="col" colspan="6" class="text-center">
+                    <h4>
+                      <strong>
+                        Software Inventory<br>
+                        Inventario total
+                      </strong>
+                    </h4>
+                  </th>
+                  <th scope="col" colspan="2" class="text-center">
+                    <strong>
+                        Fecha y hora impresion:<br>
+                        <?php echo date('Y-m-d H:i:s'); ?>
+                    </strong>
+                  </th>
+                </tr>
+                <tr>
+                  <th scope="col" colspan="10" class="text-center"></th>
+                </tr>
+                <tr>
+                  <th scope="col">Proyecto</th>
+                  <th scope="col">Territorial</th>
+                  <th scope="col">Area</th>
+                  <th scope="col">Persona a cargo</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Tipo de equipo</th>
+                  <th scope="col">Modelo</th>
+                  <th scope="col">Marca</th>
+                  <th scope="col">Procesador</th>
+                  <th scope="col">Serial</th>
+                </tr>
+                </thead>
+                <tbody id="contenidoInventario">
+                  <?php $informes->getTablaInventarioTotal('');?>
+                  <tr>
+                    <td scope="col" colspan="10" class="text-right"><p><small><em>Fecha y hora impresion :<?php echo date('Y-m-d H:i:s'); ?></small></em></p></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
         </div>
       </div>
       <div class="modal-footer">
