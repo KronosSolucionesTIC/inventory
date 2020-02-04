@@ -22,23 +22,25 @@
 
     $("#menu_usuarios").click(function(){
         $('#tabla').load('usuario/Vusuario.php');
+        $("#titulo").html('&nbsp;Usuarios');
     });
 
     //Redireccion a index de equipos
     $("#menu_equipos").click(function(){
         $('#tabla').load('equipos/index.php');
-        $("#titulo").html('Equipos');
+        $("#titulo").html('&nbsp;Equipos');
     });
 
     //Redireccion a index de funcionario
     $("#menu_funcionarios").click(function(){
         $('#tabla').load('funcionarios/index.php');
+        $("#titulo").html('&nbsp;Funcionarios');
     });
 
     //Redireccion a index de informes
     $("#informe_total").click(function(){
         $('#tabla').load('informes/inventario_total.php');
-        $("#titulo").html('Informes');
+        $("#titulo").html('&nbsp;Informes');
     });
 
 </script>
