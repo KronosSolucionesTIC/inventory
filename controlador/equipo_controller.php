@@ -34,23 +34,7 @@ class equipoController extends equipo
     //Trae los modelos
     public function getSelectModelo($valor)
     {
-        //Instancia del equipo
-        $equipo = new equipo();
-        //Lista del menu Nivel 1
-        $listaModelo = $equipo->getModelo();
-        //Se recorre array de nivel 1
-        if (isset($listaModelo)) {
-            echo '<option selected value="">Seleccione...</option>';
-            for ($i = 0; $i < sizeof($listaModelo); $i++) {
-                //Valida si es el valor
-                if ($valor == $listaModelo[$i]["id_modelo"]) {
-                    $seleccionado = "selected";
-                } else {
-                    $seleccionado = "";
-                }
-                echo '<option value="' . $listaModelo[$i]["id_modelo"] . '" ' . $seleccionado . '>' . utf8_encode($listaModelo[$i]["nombre_modelo"]) . '</option>';
-            }
-        }
+        echo '<option selected value="">Seleccione...</option>';
     }
 
     //Trae las marcas
@@ -97,29 +81,90 @@ class equipoController extends equipo
         }
     }
 
-    //Tabla de equipos
-    public function getTablaEquipos($valor)
+    //Trae la RAM
+    public function getSelectRam($valor)
     {
         //Instancia del equipo
         $equipo = new equipo();
         //Lista del menu Nivel 1
-        $listaEquipos = $equipo->getEquipos();
+        $listaRam = $equipo->getRam();
         //Se recorre array de nivel 1
-        if (isset($listaEquipos)) {
-            for ($i = 0; $i < sizeof($listaEquipos); $i++) {
+        if (isset($listaRam)) {
+            echo '<option selected value="">Seleccione...</option>';
+            for ($i = 0; $i < sizeof($listaRam); $i++) {
+                //Valida si es el valor
+                if ($valor == $listaRam[$i]["id_ram"]) {
+                    $seleccionado = "selected";
+                } else {
+                    $seleccionado = "";
+                }
+                echo '<option value="' . $listaRam[$i]["id_ram"] . '" ' . $seleccionado . '>' . utf8_encode($listaRam[$i]["nombre_ram"]) . '</option>';
+            }
+        }
+    }
+
+    //Trae el sistema operativo
+    public function getSelectSistemaOperativo($valor)
+    {
+        //Instancia del equipo
+        $equipo = new equipo();
+        //Lista del menu Nivel 1
+        $listaSistemaOperativo = $equipo->getSistemaOperativo();
+        //Se recorre array de nivel 1
+        if (isset($listaSistemaOperativo)) {
+            echo '<option selected value="">Seleccione...</option>';
+            for ($i = 0; $i < sizeof($listaSistemaOperativo); $i++) {
+                //Valida si es el valor
+                if ($valor == $listaSistemaOperativo[$i]["id_sistema_operativo"]) {
+                    $seleccionado = "selected";
+                } else {
+                    $seleccionado = "";
+                }
+                echo '<option value="' . $listaSistemaOperativo[$i]["id_sistema_operativo"] . '" ' . $seleccionado . '>' . utf8_encode($listaSistemaOperativo[$i]["nombre_sistema_operativo"]) . '</option>';
+            }
+        }
+    }
+
+    //Tabla de equipos
+    public function getTablaEquipos($permisos, $permisosConsulta)
+    {
+        //Instancia del equipo
+        $equipo = new equipo();
+        //Lista del menu Nivel 1
+        $listaEquipos = $equipo->getEquipos($permisosConsulta);
+        //Se recorre array de nivel 1
+        if ($permisos[0]["consultar"] == 1) {
+            if (isset($listaEquipos)) {
+                for ($i = 0; $i < sizeof($listaEquipos); $i++) {
+                    echo '<tr>';
+                    echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["serial_equipo"] . '</td>';
+                    echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_tipo_equipo"] . '</td>';
+                    echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_modelo"] . '</td>';
+                    echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_marca"] . '</td>';
+                    echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_procesador"] . '</td>';
+                    echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_estado_equipo"] . '</td>';
+                    if ($permisos[0]["editar"] == 1 || $permisos[0]["eliminar"] == 1) {
+                        echo '<td>';
+                    }
+                    if ($permisos[0]["editar"] == 1) {
+                        echo '<button type="button" class="btn btn-warning" data-target="#modalEquipo" data-toggle="modal" name="btn_editar" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '"><i class="fas fa-pen-square"></i></i></button>&nbsp;';
+                    };
+                    if ($permisos[0]["eliminar"] == 1) {
+                        echo '<button type="button" class="btn btn-danger" name="btn_eliminar" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '" data-toggle="modal" data-target="#eliminarModal"><i class="fas fa-trash-alt"></i></button>';
+                    }
+                    if ($permisos[0]["editar"] == 1 || $permisos[0]["eliminar"] == 1) {
+                        echo '</td>';
+                    }
+                    echo '</tr>';
+                }
+            } else {
                 echo '<tr>';
-                echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["serial_equipo"] . '</td>';
-                echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_tipo_equipo"] . '</td>';
-                echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_modelo"] . '</td>';
-                echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_marca"] . '</td>';
-                echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_procesador"] . '</td>';
-                echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '">' . $listaEquipos[$i]["nombre_estado_equipo"] . '</td>';
-                echo '<td><button type="button" class="btn btn-warning" data-target="#modalEquipo" data-toggle="modal" name="btn_editar" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '"><i class="fas fa-pen-square"></i></i></button> <button type="button" class="btn btn-danger" name="btn_eliminar" data-id-equipo="' . $listaEquipos[$i]["id_equipo"] . '" data-toggle="modal" data-target="#eliminarModal"><i class="fas fa-trash-alt"></i></button></td>';
+                echo '<td colspan="9">No existen equipos</td>';
                 echo '</tr>';
             }
         } else {
             echo '<tr>';
-            echo '<td colspan="9">No existen equipos</td>';
+            echo '<td colspan="9">No tienen permisos para consultar</td>';
             echo '</tr>';
         }
     }

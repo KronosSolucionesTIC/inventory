@@ -21,6 +21,7 @@ class Funcionario
                 INNER JOIN territorial ON territorial.id_territorial = persona.fkID_territorial
                 INNER JOIN area ON area.id_area = persona.fkID_area
                 INNER JOIN tipo_persona ON tipo_persona.id_tipo_persona = persona.fkID_tipo_persona
+                INNER JOIN proyecto ON proyecto.id_proyecto = persona.fkID_proyecto
                 WHERE persona.estado = 1 AND fkID_cargo = 4";
         $result = mysqli_query($this->link, $query);
         $data   = array();
@@ -286,6 +287,20 @@ class Funcionario
     public function ultimaCetap()
     {
         $query  = "SELECT id_cetap,nombre_cetap FROM cetap ORDER BY cetap.`id_cetap` DESC LIMIT 1";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Trae todos los permisos
+    public function getPermisos($id_usuario, $id_modulo)
+    {
+        $query = "select permisos.* FROM `permisos`
+                    INNER JOIN persona on persona.fkID_cargo = permisos.fkID_cargo
+                    INNER JOIN usuario on usuario.fkID_persona = persona.id_persona
+                    WHERE usuario.id_usuario='" . $id_usuario . "' and fkID_modulo ='" . $id_modulo . "'";
         $result = mysqli_query($this->link, $query);
         $data   = array();
         while ($data[] = mysqli_fetch_assoc($result));

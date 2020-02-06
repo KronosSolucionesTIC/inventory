@@ -17,7 +17,7 @@
               <input class="form-control" type="text" id="nombres_persona" style="text-transform:uppercase;" required="true">
             </div>
             <div class="col-sm-2 text-danger">
-              *
+              * 
             </div>
           </div>
           <div class="form-group row">

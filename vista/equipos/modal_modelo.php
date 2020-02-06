@@ -12,6 +12,17 @@
         <form id="form_tipo_equipo" method="POST">
           <input type="hidden" id="id_equipo">
           <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-3 col-form-label">Marca:</label>
+            <div class="col-sm-8">
+              <select class="form-control" id="id_marca" required="true">
+                <?php $equipo->getSelectMarca(0);?>
+              </select>
+            </div>
+            <div class="col-sm-1 text-danger">
+              *
+            </div>
+          </div>
+          <div class="form-group row">
             <label for="serial_equipo" class="col-sm-3 col-form-label">Nombre modelo:</label>
             <div class="col-sm-8">
               <input type="text" class="form-control" id="nombre_modelo" required="true" style="text-transform:uppercase;">

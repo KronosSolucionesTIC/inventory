@@ -172,6 +172,12 @@
 		} else {
 			marcar_campos("#fkID_procesador", 'correcto');
 		}
+		if($('#fkID_ram').val().trim() == 0){
+			bandera = false;
+			marcar_campos("#fkID_ram", 'incorrecto');
+		} else {
+			marcar_campos("#fkID_ram", 'correcto');
+		}
 		if(bandera == false){
 			alertify.alert(
 				'Campos incompletos',
@@ -253,11 +259,13 @@
 	 	fkID_modelo = $("#fkID_modelo").val();
 	 	fkID_marca = $("#fkID_marca").val();
 	 	fkID_procesador = $("#fkID_procesador").val();
+	 	fkID_ram = $("#fkID_ram").val();
+	 	fkID_sistema_operativo = $("#fkID_sistema_operativo").val();
 	 	observaciones_equipo = $("#observaciones_equipo").val();
 
 	    $.ajax({
 	      url: "../controlador/ajaxEquipo.php",
-	      data: 'serial_equipo='+serial+'&fkID_tipo_equipo='+fkID_tipo_equipo+'&fkID_modelo='+fkID_modelo+'&fkID_marca='+fkID_marca+'&fkID_procesador='+fkID_procesador+'&observaciones_equipo='+observaciones_equipo+'&tipo=inserta'
+	      data: 'serial_equipo='+serial+'&fkID_tipo_equipo='+fkID_tipo_equipo+'&fkID_modelo='+fkID_modelo+'&fkID_marca='+fkID_marca+'&fkID_procesador='+fkID_procesador+'&fkID_ram='+fkID_ram+'&fkID_sistema_operativo='+fkID_sistema_operativo+'&observaciones_equipo='+observaciones_equipo+'&tipo=inserta'
 	    })
 	    .done(function(data) {
 	      //---------------------
@@ -292,10 +300,17 @@
 	        $.each(data[0], function( key, value ) {
 	          console.log(key+"--"+value);
 	          $("#"+key).val(value);
+	          if(key == 'fkID_marca'){
+	          	marca = value;
+	          }
+	          if(key == 'fkID_modelo'){
+	          	modelo = value;
+	          }
 	          if(key == 'fkID_procesador' && value == 7){
 	          	$('#fkID_procesador').attr('disabled',true);
 	          }
 	        });
+	        cargar_select_modelo(marca, modelo);
 
 	        id_equipo = data.id_equipo;
 	    })
@@ -315,11 +330,13 @@
 	 	fkID_modelo = $("#fkID_modelo").val();
 	 	fkID_marca = $("#fkID_marca").val();
 	 	fkID_procesador = $("#fkID_procesador").val();
+	 	fkID_ram = $("#fkID_ram").val();
+	 	fkID_sistema_operativo = $("#fkID_sistema_operativo").val();
 	 	observaciones_equipo = $("#observaciones_equipo").val();
 
 	    $.ajax({
 	      url: "../controlador/ajaxEquipo.php",
-	      data: 'id_equipo='+id_equipo+'&serial_equipo='+serial+'&fkID_tipo_equipo='+fkID_tipo_equipo+'&fkID_modelo='+fkID_modelo+'&fkID_marca='+fkID_marca+'&fkID_procesador='+fkID_procesador+'&observaciones_equipo='+observaciones_equipo+'&tipo=edita'
+	      data: 'id_equipo='+id_equipo+'&serial_equipo='+serial+'&fkID_tipo_equipo='+fkID_tipo_equipo+'&fkID_modelo='+fkID_modelo+'&fkID_marca='+fkID_marca+'&fkID_procesador='+fkID_procesador+'&fkID_ram='+fkID_ram+'&fkID_sistema_operativo='+fkID_sistema_operativo+'&observaciones_equipo='+observaciones_equipo+'&tipo=edita'
 	    })
 	    .done(function(data) {
 	      //---------------------
@@ -360,17 +377,50 @@
 
 	//Funcion guardar modelo
 	$("#btn_guardar_modelo").click(function(){
-		validar_modelo();
+		resultado = campos_modelo();
+		if(resultado == true){
+			validar_modelo();
+		}
 		return false;
 	});
 
+	//Funcion para validar campos marca
+	function campos_modelo(){
+		bandera = true;
+		if($("#id_marca").val().length == 0){
+			bandera = false;
+			marcar_campos("#id_marca", 'incorrecto');
+		} else {
+			marcar_campos("#id_marca", 'correcto');
+		}
+		if($("#nombre_modelo").val() == ""){
+			bandera = false;
+			marcar_campos("#nombre_modelo", 'incorrecto');
+		} else {
+			marcar_campos("#nombre_modelo", 'correcto');
+		}
+
+		if(bandera == false){
+			alertify.alert(
+				'Campos incompletos',
+				'Los campos con * son obligatorios',
+				function(){
+					alertify.error('Campos vacios');
+			});
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	//Funcion para validar modelo
 	function validar_modelo(){
+		id_marca = $("#id_marca").val();
 	 	nombre_modelo = $("#nombre_modelo").val();
 
 	    $.ajax({
 	      url: "../controlador/ajaxEquipo.php",
-	      data: 'nombre_modelo='+nombre_modelo+'&tipo=valida_modelo',
+	      data: 'nombre_modelo='+nombre_modelo+'&fkID_marca='+id_marca+'&tipo=valida_modelo',
 	      dataType: 'json'
 	    })
 	    .done(function(data) {
@@ -390,11 +440,12 @@
 
 	//Funcion para guardar el modelo
 	function crea_modelo(){
+		id_marca = $("#id_marca").val();
 	 	nombre_modelo = $("#nombre_modelo").val();
 
 	    $.ajax({
 	      url: "../controlador/ajaxEquipo.php",
-	      data: 'nombre_modelo='+nombre_modelo+'&tipo=inserta_modelo'
+	      data: 'nombre_modelo='+nombre_modelo+'&fkID_marca='+id_marca+'&tipo=inserta_modelo'
 	    })
 	    .done(function(data) {
 	      //---------------------
@@ -713,4 +764,221 @@
 		$("select").removeClass('is-invalid');
 		$("select").removeClass('is-valid');
 	}
+
+	//Llena el select de modelo
+	$("#fkID_marca").change(function(){
+		id_marca = $(this).val();
+		cargar_select_modelo(id_marca,0);
+	});
+
+	//Cargar select modelo
+	function cargar_select_modelo(id_marca,modelo){
+	    $.ajax({
+	      url: "../controlador/ajaxEquipo.php",
+	      data: 'id_marca='+id_marca+'&tipo=consulta_modelo',
+	      dataType : 'json'
+	    })
+	    .done(function(data) {
+	      //---------------------
+	      console.log(data);
+	      if(data.length >0){
+
+		  	for (var i = 0; i < data.length; i++) {
+	      		$('#fkID_modelo').append(new Option(data[i]["nombre_modelo"], data[i]["id_modelo"]));
+	      		if(modelo != 0){
+	      			$('#fkID_modelo').val(modelo);
+	      		} else {
+	      			console.log('El modelo es 0');
+	      		}
+	      	}
+	      }
+
+	   	})
+	    .fail(function(data) {
+	    	vaciar_modelo();
+	    	alertify.alert(
+				'No existen registros',
+				'Verifique la marca o cree un nuevo modelo',
+				function(){
+					alertify.error('No existen modelos con la marca seleccionada');
+			});
+	    })
+	     always(function(data) {
+	      console.log(data);
+	    });
+	}
+
+	//Vacia el select modelo
+	function vaciar_modelo(){
+		$('#fkID_modelo')[0].options.length = 0;
+		$('#fkID_modelo').append(new Option('Seleccione...', 0));
+	}
+
+	//Funcion guardar ram
+	$("#btn_guardar_ram").click(function(){
+		validar_ram();
+		return false;
+	});
+
+	//Funcion para validar modelo
+	function validar_ram(){
+	 	nombre_ram = $("#nombre_ram").val();
+
+	    $.ajax({
+	      url: "../controlador/ajaxEquipo.php",
+	      data: 'nombre_ram='+nombre_ram+'&tipo=valida_ram',
+	      dataType: 'json'
+	    })
+	    .done(function(data) {
+	      //---------------------
+	      if(data[0]["cantidad"] >0){
+	      	alert('La ram ya esta registrada');
+	      	$("#nombre_ram").val("");
+	      	$("#nombre_ram").focus();
+	      } else {
+	      	crea_ram();
+	      }
+	    })
+	    .fail(function(data) {
+	      console.log(data);
+	    });
+	}
+
+	//Funcion para guardar el ram
+	function crea_ram(){
+	 	nombre_ram = $("#nombre_ram").val();
+
+	    $.ajax({
+	      url: "../controlador/ajaxEquipo.php",
+	      data: 'nombre_ram='+nombre_ram+'&tipo=inserta_ram'
+	    })
+	    .done(function(data) {
+	      //---------------------
+	      console.log(data);
+	      $("#modalRam").removeClass("show");
+	      $("#modalRam").removeClass("modal-backdrop");
+	      carga_ram();
+	      $("#nombre_ram").val("");
+	    })
+	    .fail(function(data) {
+	      console.log(data);
+	    })
+	     always(function(data) {
+	      console.log(data);
+	    });
+	}
+
+	//Funcion para cargar el registro guardado
+	function carga_ram(){
+
+	    $.ajax({
+	        url: "../controlador/ajaxEquipo.php",
+	        data: "tipo=ultima_ram",
+	        dataType: 'json'
+	    })
+	    .done(function(data) {
+
+	        $.each(data[0], function( key, value ) {
+	          	console.log(key+"--"+value);
+	          	if(key == "id_ram"){
+	          		optionValue = value;
+	          	}
+	          	if(key == "nombre_ram")
+            		optionText = value;
+	        });
+	        $('#fkID_ram').append(new Option(optionText, optionValue));
+	        $('#fkID_ram').val(optionValue);
+	        alert('Guardada la ram');
+	    })
+	    .fail(function(data) {
+	        console.log(data);
+	    })
+	    .always(function(data) {
+	        console.log(data);
+	    });
+	};
+
+	//Funcion guardar sistema_operativo
+	$("#btn_guardar_sistema_operativo").click(function(){
+		validar_sistema_operativo();
+		return false;
+	});
+
+	//Funcion para validar sistema operativo
+	function validar_sistema_operativo(){
+	 	nombre_sistema_operativo = $("#nombre_sistema_operativo").val();
+
+	    $.ajax({
+	      url: "../controlador/ajaxEquipo.php",
+	      data: 'nombre_sistema_operativo='+nombre_sistema_operativo+'&tipo=valida_sistema_operativo',
+	      dataType: 'json'
+	    })
+	    .done(function(data) {
+	      //---------------------
+	      if(data[0]["cantidad"] >0){
+	      	alert('El sistema operativo ya esta registrado');
+	      	$("#nombre_sistema_operativo").val("");
+	      	$("#nombre_sistema_operativo").focus();
+	      } else {
+	      	crea_sistema_operativo();
+	      }
+	    })
+	    .fail(function(data) {
+	      console.log(data);
+	    });
+	}
+
+	//Funcion para guardar el sistema_operativo
+	function crea_sistema_operativo(){
+	 	nombre_sistema_operativo = $("#nombre_sistema_operativo").val();
+
+	    $.ajax({
+	      url: "../controlador/ajaxEquipo.php",
+	      data: 'nombre_sistema_operativo='+nombre_sistema_operativo+'&tipo=inserta_sistema_operativo'
+	    })
+	    .done(function(data) {
+	      //---------------------
+	      console.log(data);
+	      $("#modalSistemaOperativo").removeClass("show");
+	      $("#modalSistemaOperativo").removeClass("modal-backdrop");
+	      carga_sistema_operativo();
+	      $("#nombre_sistema_operativo").val("");
+	    })
+	    .fail(function(data) {
+	      console.log(data);
+	    })
+	     always(function(data) {
+	      console.log(data);
+	    });
+	}
+
+	//Funcion para cargar el registro guardado
+	function carga_sistema_operativo(){
+
+	    $.ajax({
+	        url: "../controlador/ajaxEquipo.php",
+	        data: "tipo=ultima_sistema_operativo",
+	        dataType: 'json'
+	    })
+	    .done(function(data) {
+
+	        $.each(data[0], function( key, value ) {
+	          	console.log(key+"--"+value);
+	          	if(key == "id_sistema_operativo"){
+	          		optionValue = value;
+	          	}
+	          	if(key == "nombre_sistema_operativo")
+            		optionText = value;
+	        });
+	        $('#fkID_sistema_operativo').append(new Option(optionText, optionValue));
+	        $('#fkID_sistema_operativo').val(optionValue);
+	        alert('Guardada la sistema_operativo');
+	    })
+	    .fail(function(data) {
+	        console.log(data);
+	    })
+	    .always(function(data) {
+	        console.log(data);
+	    });
+	};
 </script>

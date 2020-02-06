@@ -153,3 +153,64 @@ if ($tipo == 'ultimo_procesador') {
         return 'No se consulto';
     }
 }
+
+if ($tipo == 'consulta_modelo') {
+    $resultado = $equipo->consultaModelo($_GET);
+    if ($resultado) {
+        echo json_encode($resultado); //imprime el json
+    } else {
+        return 'No se consulto';
+    }
+}
+
+if ($tipo == 'valida_ram') {
+    $resultado = $equipo->validaRam($_GET);
+    if ($resultado) {
+        echo json_encode($resultado); //imprime el json
+    } else {
+        return 'No se consulto';
+    }
+}
+
+if ($tipo == 'inserta_ram') {
+    if ($equipo->insertaRam($_GET)) {
+        return 'Guardo';
+    } else {
+        return 'No se guardo';
+    }
+}
+
+if ($tipo == 'ultima_ram') {
+    $resultado = $equipo->ultimaRam($_GET);
+    if ($resultado) {
+        echo json_encode($resultado); //imprime el json
+    } else {
+        return 'No se consulto';
+    }
+}
+
+if ($tipo == 'valida_sistema_operativo') {
+    $resultado = $equipo->validaSistemaOperativo($_GET);
+    if ($resultado) {
+        echo json_encode($resultado); //imprime el json
+    } else {
+        return 'No se consulto';
+    }
+}
+
+if ($tipo == 'inserta_sistema_operativo') {
+    if ($equipo->insertaSistemaOperativo($_GET)) {
+        return 'Guardo';
+    } else {
+        return 'No se guardo';
+    }
+}
+
+if ($tipo == 'ultima_sistema_operativo') {
+    $resultado = $equipo->ultimaSistemaOperativo($_GET);
+    if ($resultado) {
+        echo json_encode($resultado); //imprime el json
+    } else {
+        return 'No se consulto';
+    }
+}

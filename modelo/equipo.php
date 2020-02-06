@@ -15,15 +15,41 @@ class Equipo
     }
 
     //Trae todos los equipos
-    public function getEquipos()
+    public function getEquipos($permisosConsulta)
     {
+        if ($permisosConsulta[0]["fkID_cargo"] == 1) {
+            $url = "";
+        }
+        if ($permisosConsulta[0]["fkID_cargo"] == 2) {
+            $url = " AND fkID_proyecto= '" . $permisosConsulta[0]['fkID_proyecto'] . "'";
+        }
+        if ($permisosConsulta[0]["fkID_cargo"] == 3) {
+            $url = " AND fkID_persona_a_cargo = '" . $permisosConsulta[0]['fkID_persona'] . "'";
+        }
+
         $query = "SELECT * FROM equipo
                 INNER JOIN tipo_equipo ON tipo_equipo.id_tipo_equipo = equipo.fkID_tipo_equipo
                 INNER JOIN modelo ON modelo.id_modelo = equipo.fkID_modelo
                 INNER JOIN marca ON marca.id_marca = equipo.fkID_marca
                 INNER JOIN procesador ON procesador.id_procesador = equipo.fkID_procesador
                 INNER JOIN estado_equipo ON estado_equipo.id_estado_equipo = equipo.fkID_estado
-                WHERE equipo.estado = 1";
+                INNER JOIN inventario ON inventario.fkID_equipo = equipo.id_equipo
+                LEFT JOIN asignar ON asignar.fkID_equipo = equipo.id_equipo
+                WHERE equipo.estado = 1" . $url;
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Trae todos los permisos
+    public function getPermisos($id_usuario, $id_modulo)
+    {
+        $query = "select permisos.* FROM `permisos`
+                    INNER JOIN persona on persona.fkID_cargo = permisos.fkID_cargo
+                    INNER JOIN usuario on usuario.fkID_persona = persona.id_persona
+                    WHERE usuario.id_usuario='" . $id_usuario . "' and fkID_modulo ='" . $id_modulo . "'";
         $result = mysqli_query($this->link, $query);
         $data   = array();
         while ($data[] = mysqli_fetch_assoc($result));
@@ -79,6 +105,30 @@ class Equipo
         return $data;
     }
 
+    //Trae la RAM
+    public function getRam()
+    {
+        $query = "SELECT * FROM ram
+                ORDER BY nombre_ram";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Trae el sistema operativo
+    public function getSistemaOperativo()
+    {
+        $query = "SELECT * FROM sistema_operativo
+                ORDER BY nombre_sistema_operativo";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
     //Crea un nuevo equipo
     public function insertaEquipo($data)
     {
@@ -86,7 +136,7 @@ class Equipo
         $serial = strtoupper($data['serial_equipo']);
         //Pasa las observaciones a mayusculas
         $observaciones = strtoupper($data['observaciones_equipo']);
-        $query         = "INSERT INTO equipo (serial_equipo,fkID_tipo_equipo,fkID_modelo,fkID_marca,fkID_procesador, observaciones_equipo,fkID_estado) VALUES ('" . $serial . "', '" . $data['fkID_tipo_equipo'] . "', '" . $data['fkID_modelo'] . "', '" . $data['fkID_marca'] . "', '" . $data['fkID_procesador'] . "', '" . $observaciones . "','1')";
+        $query         = "INSERT INTO equipo (serial_equipo,fkID_tipo_equipo,fkID_modelo,fkID_marca,fkID_procesador, observaciones_equipo,fkID_estado,fkID_ram,fkID_sistema_operativo) VALUES ('" . $serial . "', '" . $data['fkID_tipo_equipo'] . "', '" . $data['fkID_modelo'] . "', '" . $data['fkID_marca'] . "', '" . $data['fkID_procesador'] . "', '" . $observaciones . "','1','" . $data['fkID_ram'] . "','" . $data['fkID_sistema_operativo'] . "')";
         $result        = mysqli_query($this->link, $query);
         if (mysqli_affected_rows($this->link) > 0) {
             return true;
@@ -114,7 +164,7 @@ class Equipo
         $serial = strtoupper($data['serial_equipo']);
         //Pasa las observaciones a mayusculas
         $observaciones = strtoupper($data['observaciones_equipo']);
-        $query         = "UPDATE equipo SET serial_equipo = '" . $serial . "',fkID_tipo_equipo = '" . $data['fkID_tipo_equipo'] . "',fkID_modelo = '" . $data['fkID_modelo'] . "',fkID_marca = '" . $data['fkID_marca'] . "' ,fkID_procesador = '" . $data['fkID_procesador'] . "', observaciones_equipo = '" . $observaciones . "' WHERE id_equipo = '" . $data['id_equipo'] . "'";
+        $query         = "UPDATE equipo SET serial_equipo = '" . $serial . "',fkID_tipo_equipo = '" . $data['fkID_tipo_equipo'] . "',fkID_modelo = '" . $data['fkID_modelo'] . "',fkID_marca = '" . $data['fkID_marca'] . "' ,fkID_procesador = '" . $data['fkID_procesador'] . "', observaciones_equipo = '" . $observaciones . "', fkID_ram = '" . $data['fkID_ram'] . "', fkID_sistema_operativo = '" . $data['fkID_sistema_operativo'] . "'  WHERE id_equipo = '" . $data['id_equipo'] . "'";
         $result        = mysqli_query($this->link, $query);
         if (mysqli_affected_rows($this->link) > 0) {
             return true;
@@ -260,7 +310,7 @@ class Equipo
     //Valida el modelo
     public function validaModelo($data)
     {
-        $query  = "SELECT COUNT(*) AS cantidad FROM `modelo` WHERE nombre_modelo =  '" . $data['nombre_modelo'] . "' AND estado = 1";
+        $query  = "SELECT COUNT(*) AS cantidad FROM `modelo` WHERE nombre_modelo =  '" . $data['nombre_modelo'] . "' AND estado = 1 AND fkID_marca = '" . $data["fkID_marca"] . "'";
         $result = mysqli_query($this->link, $query);
         $data   = array();
         while ($data[] = mysqli_fetch_assoc($result));
@@ -273,7 +323,7 @@ class Equipo
     {
         //Pasa el nombre a mayusculas
         $nombre = strtoupper($data['nombre_modelo']);
-        $query  = "INSERT INTO modelo (nombre_modelo) VALUES ('" . $nombre . "')";
+        $query  = "INSERT INTO modelo (nombre_modelo,fkID_marca) VALUES ('" . $nombre . "','" . $data["fkID_marca"] . "')";
         $result = mysqli_query($this->link, $query);
         if (mysqli_affected_rows($this->link) > 0) {
             return true;
@@ -396,6 +446,104 @@ class Equipo
                 INNER JOIN persona AS p2 ON p2.id_persona = historico_equipo.fkID_persona_recibe
                 INNER JOIN tipo_movimiento ON tipo_movimiento.id_tipo_movimiento = historico_equipo.fkID_tipo_movimiento
                 WHERE fkID_equipo = '" . $id_equipo . "'";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Consultar marca
+    public function consultaModelo($data)
+    {
+        $query = "SELECT id_modelo,nombre_modelo FROM modelo
+                WHERE fkID_marca = '" . $data['id_marca'] . "'
+                ORDER BY nombre_modelo ASC";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Valida el ram
+    public function validaRam($data)
+    {
+        $query  = "SELECT COUNT(*) AS cantidad FROM `ram` WHERE nombre_ram =  '" . $data['nombre_ram'] . "' AND estado = 1";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Crea un nuevo ram
+    public function insertaRam($data)
+    {
+        //Pasa el nombre a mayusculas
+        $nombre = strtoupper($data['nombre_ram']);
+        $query  = "INSERT INTO ram (nombre_ram) VALUES ('" . $nombre . "')";
+        $result = mysqli_query($this->link, $query);
+        if (mysqli_affected_rows($this->link) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //Consulta el ultimo ID de ram
+    public function ultimaRam()
+    {
+        $query  = "SELECT id_ram,nombre_ram FROM `ram` ORDER BY `ram`.`id_ram` DESC LIMIT 1";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Valida el sistema_operativo
+    public function validaSistemaOperativo($data)
+    {
+        $query  = "SELECT COUNT(*) AS cantidad FROM `sistema_operativo` WHERE nombre_sistema_operativo =  '" . $data['nombre_sistema_operativo'] . "' AND estado = 1";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Crea un nuevo sistema_operativo
+    public function insertaSistemaOperativo($data)
+    {
+        //Pasa el nombre a mayusculas
+        $nombre = strtoupper($data['nombre_sistema_operativo']);
+        $query  = "INSERT INTO sistema_operativo (nombre_sistema_operativo) VALUES ('" . $nombre . "')";
+        $result = mysqli_query($this->link, $query);
+        if (mysqli_affected_rows($this->link) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //Consulta el ultimo ID de ram
+    public function ultimaSistemaOperativo()
+    {
+        $query  = "SELECT id_sistema_operativo,nombre_sistema_operativo FROM `sistema_operativo` ORDER BY `sistema_operativo`.`id_sistema_operativo` DESC LIMIT 1";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Trae todos los permisos
+    public function getPermisosconsulta($id_usuario)
+    {
+        $query = "SELECT fkID_cargo,fkID_proyecto,fkID_persona FROM `persona`
+                INNER JOIN usuario on usuario.fkID_persona = persona.id_persona
+                WHERE usuario.id_usuario='" . $id_usuario . "'";
         $result = mysqli_query($this->link, $query);
         $data   = array();
         while ($data[] = mysqli_fetch_assoc($result));

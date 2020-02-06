@@ -10,28 +10,46 @@ class funcionarioController extends funcionario
     }
 
     //Tabla de funcionarios
-    public function getTablaFuncionarios($valor)
+    public function getTablaFuncionarios($permisos)
     {
         //Instancia del funcionario
         $funcionarios = new funcionario();
         //Lista del menu Nivel 1
         $listaFuncionarios = $funcionarios->getFuncionarios();
-        //Se recorre array de nivel 1
-        if (isset($listaFuncionarios)) {
-            for ($i = 0; $i < sizeof($listaFuncionarios); $i++) {
+        if ($permisos[0]["consultar"] == 1) {
+            //Se recorre array de nivel 1
+            if (isset($listaFuncionarios)) {
+                for ($i = 0; $i < sizeof($listaFuncionarios); $i++) {
+                    echo '<tr>';
+                    echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-funcionario="' . $listaFuncionarios[$i]["id_persona"] . '">' . $listaFuncionarios[$i]["nombres_persona"] . '</td>';
+                    echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-funcionario="' . $listaFuncionarios[$i]["id_persona"] . '">' . $listaFuncionarios[$i]["apellidos_persona"] . '</td>';
+                    echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-funcionario="' . $listaFuncionarios[$i]["id_persona"] . '">' . $listaFuncionarios[$i]["documento_persona"] . '</td>';
+                    echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-funcionario="' . $listaFuncionarios[$i]["id_persona"] . '">' . $listaFuncionarios[$i]["nombre_proyecto"] . '</td>';
+                    echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-funcionario="' . $listaFuncionarios[$i]["id_persona"] . '">' . $listaFuncionarios[$i]["nombre_territorial"] . '</td>';
+                    echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-funcionario="' . $listaFuncionarios[$i]["id_persona"] . '">' . $listaFuncionarios[$i]["nombre_area"] . '</td>';
+                    echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-funcionario="' . $listaFuncionarios[$i]["id_persona"] . '">' . $listaFuncionarios[$i]["nombre_tipo_persona"] . '</td>';
+                    if ($permisos[0]["editar"] == 1 || $permisos[0]["eliminar"] == 1) {
+                        echo '<td>';
+                    }
+                    if ($permisos[0]["editar"] == 1) {
+                        echo '<button type="button" class="btn btn-warning" data-target="#modalFuncionario" data-toggle="modal" name="btn_editar" data-id-funcionario="' . $listaFuncionarios[$i]["id_persona"] . '"><i class="fas fa-pen-square"></i></i></button>&nbsp;';
+                    };
+                    if ($permisos[0]["eliminar"] == 1) {
+                        echo ' <button type="button" class="btn btn-danger" name="btn_eliminar" data-id-funcionario="' . $listaFuncionarios[$i]["id_persona"] . '" data-toggle="modal" data-target="#eliminarModal"><i class="fas fa-trash-alt"></i></button>';
+                    }
+                    if ($permisos[0]["editar"] == 1 || $permisos[0]["eliminar"] == 1) {
+                        echo '</td>';
+                    }
+                    echo '</tr>';
+                }
+            } else {
                 echo '<tr>';
-                echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-funcionario="' . $listaFuncionarios[$i]["id_persona"] . '">' . $listaFuncionarios[$i]["nombres_persona"] . '</td>';
-                echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-funcionario="' . $listaFuncionarios[$i]["id_persona"] . '">' . $listaFuncionarios[$i]["apellidos_persona"] . '</td>';
-                echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-funcionario="' . $listaFuncionarios[$i]["id_persona"] . '">' . $listaFuncionarios[$i]["documento_persona"] . '</td>';
-                echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-funcionario="' . $listaFuncionarios[$i]["id_persona"] . '">' . $listaFuncionarios[$i]["nombre_territorial"] . '</td>';
-                echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-funcionario="' . $listaFuncionarios[$i]["id_persona"] . '">' . $listaFuncionarios[$i]["nombre_area"] . '</td>';
-                echo '<td style="cursor: pointer" class="detalle" name="btn_detalle" title="Click Ver Detalles" data-id-funcionario="' . $listaFuncionarios[$i]["id_persona"] . '">' . $listaFuncionarios[$i]["nombre_tipo_persona"] . '</td>';
-                echo '<td><button type="button" class="btn btn-warning" data-target="#modalFuncionario" data-toggle="modal" name="btn_editar" data-id-funcionario="' . $listaFuncionarios[$i]["id_persona"] . '"><i class="fas fa-pen-square"></i></i></button> <button type="button" class="btn btn-danger" name="btn_eliminar" data-id-funcionario="' . $listaFuncionarios[$i]["id_persona"] . '" data-toggle="modal" data-target="#eliminarModal"><i class="fas fa-trash-alt"></i></button></td>';
+                echo '<td colspan="9">No existen funcionarios</td>';
                 echo '</tr>';
             }
         } else {
             echo '<tr>';
-            echo '<td colspan="9">No existen funcionarios</td>';
+            echo '<td colspan="9">No tienen permisos para consultar</td>';
             echo '</tr>';
         }
     }

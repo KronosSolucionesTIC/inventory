@@ -14,7 +14,7 @@
           <div class="form-group row">
             <label for="inputEmail3" class="col-sm-3 col-form-label">Nombre del Proyecto:</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="nombre_Proyecto" >
+              <input class="form-control" type="text" id="nombre_Proyecto" style="text-transform:uppercase;">
             </div>
             <div class="col-sm-2 text-danger">
             </div>
@@ -31,7 +31,7 @@
           <div class="form-group row">
             <label for="inputEmail3" class="col-sm-3 col-form-label">Territorial:</label>
             <div class="col-sm-7">
-              <select class="form-control" id="fkID_cargo">
+              <select class="form-control" id="fkID_territorial2" name="fkID_territorial2">
                 <?php getSelectTerritorial();?>
               </select>
             </div>
@@ -39,20 +39,20 @@
           <div class="form-group row">
             <label for="inputEmail3" class="col-sm-3 col-form-label">Dirección:</label>
             <div class="col-sm-7">
-              <input class="form-control" type="text" id="apellido_empleado">
+              <input class="form-control" type="text" id="direccion_territorial" style="text-transform:uppercase;">
             </div>
           </div>
           <div class="form-group row float-center" >
             <div class="col-sm-12 text-center">
-              <button data-accion="crear" type="button" class="btn btn-primary" id="btn_guardar_Proyecto">Agregar</button>
+              <button data-accion="agregar" type="button" class="btn btn-primary" id="btn_agregar_Territorial">Agregar</button>
             </div>
-          </div>
+          </div>  
           <div class="form-group row float-center">
             <div class="card col-sm-12">
             <div class="card-header text-center">
               Territoriales Asignadas
             </div>
-            <div class="card-body" style="background:#D9EEED;">
+            <div class="card-body" style="background:#D9EEED;" id="territorial_agregada">
               
             </div>
             </div>

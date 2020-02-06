@@ -1,7 +1,16 @@
 <?php include 'head.php';
-session_start();
-$idUsuario = $_SESSION['id_usuario'];
-
+if (!isset($_SESSION)) {
+    session_start();
+}
+if ($_SESSION['id_usuario'] < 1) {
+    header("Location: login/index.php");
+    exit;
+}
+include dirname(__file__, 2) . '../modelo/usuario.php';
+$usuario      = new Usuario();
+$idUsuario    = $_SESSION['id_usuario'];
+$datosusuario = $usuario->getUsuariolog($idUsuario);
+$vermodulo    = $usuario->getVermodulo($datosusuario[0]["fkID_cargo"], 1);
 ?>
     <body id="page-top">
         <!-- Page Wrapper -->
@@ -25,8 +34,8 @@ $idUsuario = $_SESSION['id_usuario'];
                 <hr class="sidebar-divider my-0">
                     <!-- Nav Item - Dashboard -->
                     <li class="nav-item active">
-                        <a class="nav-link" href="index.php">
-                            <i class="fas fa-home">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-home" style="cursor: pointer">
                             </i>
                             <span>
                                 Inicio
@@ -39,6 +48,10 @@ $idUsuario = $_SESSION['id_usuario'];
                         <div class="sidebar-heading">
                             Menú
                         </div>
+                        <?php
+$vermodulo = $usuario->getVermodulo($datosusuario[0]["fkID_cargo"], 2);
+if ($vermodulo[0]['ver'] == 1) {
+    ?>
                         <!-- Nav Item - Charts -->
                         <li class="nav-item">
                             <a class="nav-link" id="menu_equipos" style="cursor: pointer">
@@ -49,9 +62,14 @@ $idUsuario = $_SESSION['id_usuario'];
                                 </span>
                             </a>
                         </li>
+                        <?php }?>
+                        <?php
+$vermodulo = $usuario->getVermodulo($datosusuario[0]["fkID_cargo"], 3);
+if ($vermodulo[0]['ver'] == 1) {
+    ?>
                         <!-- Nav Item - Charts -->
                         <li class="nav-item">
-                            <a class="nav-link" href="charts.html">
+                            <a class="nav-link" id="menu_proyecto" style="cursor: pointer">
                                 <i class="fas fa-file-contract">
                                 </i>
                                 <span>
@@ -59,9 +77,14 @@ $idUsuario = $_SESSION['id_usuario'];
                                 </span>
                             </a>
                         </li>
+                        <?php }?>
+                        <?php
+$vermodulo = $usuario->getVermodulo($datosusuario[0]["fkID_cargo"], 4);
+if ($vermodulo[0]['ver'] == 1) {
+    ?>
                         <!-- Nav Item - Pages Collapse Menu -->
                         <li class="nav-item">
-                            <a class="nav-link">
+                            <a class="nav-link" style="cursor: pointer">
                                 <i class="fas fa-user-check">
                                 </i>
                                 <span>
@@ -69,9 +92,14 @@ $idUsuario = $_SESSION['id_usuario'];
                                 </span>
                             </a>
                         </li>
+                        <?php }?>
+                        <?php
+$vermodulo = $usuario->getVermodulo($datosusuario[0]["fkID_cargo"], 8);
+if ($vermodulo[0]['ver'] == 1) {
+    ?>
                         <!-- Nav Item - Charts -->
                         <li class="nav-item">
-                            <a class="nav-link" href="charts.html">
+                            <a class="nav-link" href="charts.html" style="cursor: pointer">
                                 <i class="fas fa-exchange-alt">
                                 </i>
                                 <span>
@@ -79,36 +107,25 @@ $idUsuario = $_SESSION['id_usuario'];
                                 </span>
                             </a>
                         </li>
-                         <!-- Nav Item - Utilities Collapse Menu -->
+                        <?php }?>
+                        <?php
+$vermodulo = $usuario->getVermodulo($datosusuario[0]["fkID_cargo"], 12);
+if ($vermodulo[0]['ver'] == 1) {
+    ?>
+                        <!-- Nav Item - Charts -->
                         <li class="nav-item">
-                            <a aria-controls="collapseInformes" aria-expanded="true" class="nav-link collapsed" data-target="#collapseInformes" data-toggle="collapse" href="#">
-                                <i class="fas fa-cog">
+                            <a class="nav-link" id="menu_informes" style="cursor: pointer">
+                                <i class="fas fa-chart-bar">
                                 </i>
                                 <span>
                                     Informes
                                 </span>
                             </a>
-                            <div aria-labelledby="headingInformes" class="collapse" data-parent="#accordionSidebar" id="collapseInformes">
-                                <div class="bg-white py-2 collapse-inner rounded">
-                                    <h6 class="collapse-header">
-                                        Seleccione:
-                                    </h6>
-                                    <a class="collapse-item" id="informe_total" style="cursor: pointer">
-                                        <span>
-                                            Inventario total
-                                        </span>
-                                    </a>
-                                    <a class="collapse-item" id="menu_funcionarios" style="cursor: pointer">
-                                        <span>
-                                            Inventario x territorial
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
                         </li>
+                        <?php }?>
                         <!-- Nav Item - Utilities Collapse Menu -->
                         <li class="nav-item">
-                            <a aria-controls="collapseUtilities" aria-expanded="true" class="nav-link collapsed" data-target="#collapseUtilities" data-toggle="collapse" href="#">
+                            <a aria-controls="collapseUtilities" aria-expanded="true" class="nav-link collapsed" data-target="#collapseUtilities" data-toggle="collapse" href="#" style="cursor: pointer">
                                 <i class="fas fa-cog">
                                 </i>
                                 <span>
@@ -120,14 +137,23 @@ $idUsuario = $_SESSION['id_usuario'];
                                     <h6 class="collapse-header">
                                         Personal:
                                     </h6>
-                                    <a class="collapse-item" href="utilities-color.html">
+                                    <?php
+$vermodulo = $usuario->getVermodulo($datosusuario[0]["fkID_cargo"], 13);
+if ($vermodulo[0]['ver'] == 1) {
+    ?>
+                                    <a class="collapse-item" href="utilities-color.html" style="cursor: pointer">
                                         Empleado
                                     </a>
-                                    <a class="collapse-item" id="menu_funcionarios" style="cursor: pointer">
-                                        <span>
-                                            Funcionario
-                                        </span>
+                                <?php }?>
+                                <?php
+$vermodulo = $usuario->getVermodulo($datosusuario[0]["fkID_cargo"], 14);
+if ($vermodulo[0]['ver'] == 1) {
+    ?>
+
+                                    <a class="collapse-item" id="menu_funcionario" style="cursor: pointer">
+                                        Funcionario
                                     </a>
+                                    <?php }?>
                                 </div>
                             </div>
                         </li>
@@ -165,26 +191,31 @@ $idUsuario = $_SESSION['id_usuario'];
                             <div class="topbar-divider d-none d-sm-block">
                             </div>
                             <!-- Nav Item - User Information -->
-                            <li class="nav-item dropdown no-arrow">
+                            <li class="nav-item dropdown no-arrow" style="cursor: pointer">
                                 <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="userDropdown" role="button">
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                        <?php echo $idUsuario; ?>
+                                        <?php echo $datosusuario[0]["nombres"]; ?>
                                     </span>
-                                    <img class="img-profile rounded-circle" src="https://cdn.icon-icons.com/icons2/1248/PNG/128/user_84308.png">
+                                    <img class="img-profile rounded-circle" src="../imagenes/usuario.png">
                                     </img>
                                 </a>
                                 <!-- Dropdown - User Information -->
                                 <div aria-labelledby="userDropdown" class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
-                                    <a class="dropdown-item" id="menu_usuarios">
-                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400">
-                                        </i>
-                                        Usuario
-                                    </a>
                                     <a class="dropdown-item" href="#">
                                         <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400">
                                         </i>
-                                        Roles
+                                        <?php echo $datosusuario[0]["nombre_cargo"]; ?>
                                     </a>
+                                    <?php
+$vermodulo = $usuario->getVermodulo($datosusuario[0]["fkID_cargo"], 1);
+if ($vermodulo[0]['ver'] == 1) {
+    ?>
+                                    <a class="dropdown-item" id="menu_usuarios">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400">
+                                        </i>
+                                        Usuarios
+                                    </a>
+                                    <?php }?>
                                     <div class="dropdown-divider">
                                     </div>
                                     <a class="dropdown-item" data-target="#logoutModal" data-toggle="modal" href="#">
@@ -223,7 +254,7 @@ $idUsuario = $_SESSION['id_usuario'];
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">
-                            Ready to Leave?
+                            Desea cerrar sesión?
                         </h5>
                         <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                             <span aria-hidden="true">
@@ -231,19 +262,18 @@ $idUsuario = $_SESSION['id_usuario'];
                             </span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        Select "Logout" below if you are ready to end your current session.
+                    <div class="modal-body text-center">
+                        Seleccione "Cerrar sesión" a continuación si está listo para finalizar su sesión actual.
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" data-dismiss="modal" type="button">
-                            Cancel
+                            Cancelar
                         </button>
-                        <a class="btn btn-primary" href="login.html">
-                            Logout
-                        </a>
+                        <button class="btn btn-primary" name="btn_cerrar_sesion" id="btn_cerrar_sesion">
+                            Cerrar sesión
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
   <?php include 'footer.php';?>
-

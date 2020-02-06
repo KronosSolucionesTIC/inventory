@@ -122,7 +122,7 @@
       $(campo).removeClass('is-valid');
       $(campo).addClass('is-invalid');
     }
-  }
+  }  
 
     //Funcion para guardar el funcionario
     function crea_funcionario(){

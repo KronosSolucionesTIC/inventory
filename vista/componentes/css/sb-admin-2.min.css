@@ -8910,8 +8910,12 @@ body.sidebar-toggled footer.sticky-footer {
     font-size: 40px;
     font-weight: bold;
     background: url("../../../imagenes/fondo.png");
-    height: 100%;
-    width: 100%;
     vertical-align: middle;
     color: white;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
 }

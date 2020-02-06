@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="modalEquipo" tabindex="-1" role="dialog" aria-labelledby="modalEquipoLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="modalEquipoLabel"></h5>
@@ -33,18 +33,6 @@
             </div>
           </div>
           <div class="form-group row">
-            <label for="inputEmail3" class="col-sm-3 col-form-label">Modelo:</label>
-            <div class="col-sm-7">
-              <select class="form-control" id="fkID_modelo" required="true">
-                <?php $equipo->getSelectModelo(0);?>
-              </select>
-            </div>
-            <div class="col-sm-2 text-danger">
-              *
-              <button type="button" class="btn btn-primary" data-target="#modalModelo" data-toggle="modal"><i class="fas fa-plus"></i></button>
-            </div>
-          </div>
-          <div class="form-group row">
             <label for="inputEmail3" class="col-sm-3 col-form-label">Marca:</label>
             <div class="col-sm-7">
               <select class="form-control" id="fkID_marca" required="true">
@@ -57,6 +45,18 @@
             </div>
           </div>
           <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-3 col-form-label">Modelo:</label>
+            <div class="col-sm-7">
+              <select class="form-control" id="fkID_modelo" required="true">
+                <?php $equipo->getSelectModelo(0);?>
+              </select>
+            </div>
+            <div class="col-sm-2 text-danger">
+              *
+              <button type="button" class="btn btn-primary" data-target="#modalModelo" data-toggle="modal"><i class="fas fa-plus"></i></button>
+            </div>
+          </div>
+          <div class="form-group row">
             <label for="inputEmail3" class="col-sm-3 col-form-label">Procesador:</label>
             <div class="col-sm-7">
               <select class="form-control" id="fkID_procesador" required="true">
@@ -66,6 +66,29 @@
             <div class="col-sm-2 text-danger">
               *
               <button type="button" class="btn btn-primary" data-target="#modalProcesador" data-toggle="modal"><i class="fas fa-plus"></i></button>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-3 col-form-label">RAM:</label>
+            <div class="col-sm-7">
+              <select class="form-control" id="fkID_ram" required="true">
+                <?php $equipo->getSelectRam(0);?>
+              </select>
+            </div>
+            <div class="col-sm-2 text-danger">
+              *
+              <button type="button" class="btn btn-primary" data-target="#modalRam" data-toggle="modal"><i class="fas fa-plus"></i></button>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-3 col-form-label">Sistema operativo:</label>
+            <div class="col-sm-7">
+              <select class="form-control" id="fkID_sistema_operativo" required="true">
+                <?php $equipo->getSelectSistemaOperativo(0);?>
+              </select>
+            </div>
+            <div class="col-sm-2 text-danger">
+              <button type="button" class="btn btn-primary" data-target="#modalSistemaOperativo" data-toggle="modal"><i class="fas fa-plus"></i></button>
             </div>
           </div>
           <div class="form-group row">
