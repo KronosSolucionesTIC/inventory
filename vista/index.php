@@ -99,8 +99,8 @@ if ($vermodulo[0]['ver'] == 1) {
     ?>
                         <!-- Nav Item - Charts -->
                         <li class="nav-item">
-                            <a class="nav-link" href="charts.html" style="cursor: pointer">
-                                <i class="fas fa-exchange-alt">
+                            <a class="nav-link" id="menu_devolucion" style="cursor: pointer">
+                                <i class="fas fa-chart-bar">
                                 </i>
                                 <span>
                                     Devolución

@@ -11,7 +11,7 @@
         <script src="componentes/js/demo/chart-area-demo.js">
         </script>
 
-        
+
  </body>
  </html>
  <script type="text/javascript">
@@ -59,9 +59,16 @@
         $("#titulo").html('&nbsp;Informes');
     });
 
+    //Redireccion a index de proyectos
     $("#menu_proyecto").click(function(){
         $('#tabla').load('proyectos/Vproyecto.php');
         $("#titulo").html('&nbsp;Proyectos');
+    });
+
+    //Redireccion a index de devolucion
+    $("#menu_devolucion").click(function(){
+        $('#tabla').load('devolucion/index.php');
+        $("#titulo").html('&nbsp;Devolución');
     });
 
 </script>

@@ -1,11 +1,12 @@
-<?php include "../../controlador/equipo_controller.php";
+<?php
+include "../../controlador/equipo_controller.php";
 session_start();
 $idUsuario       = $_SESSION['id_usuario'];
 $equipo          = new equipo();
 $permisos        = $equipo->getPermisos($idUsuario, 2);
 $permisoconsulta = $equipo->getPermisosconsulta($idUsuario);
+$equipo          = new equipoController();
 ?>
-<?php $equipo = new equipoController();?>
 <div class="row">
     <div class="col-md-12">
         <nav aria-label="breadcrumb">
