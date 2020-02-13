@@ -66,10 +66,54 @@ include "scripts.php";
         </div>
     </div>
     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-        La hoja de vida del devolucion esta contemplada para la siguiente fase del desarrollo del aplicativo :D.
+        Las reparaciones del devolucion esta contemplada para la siguiente fase del desarrollo del aplicativo :D.
     </div>
     <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-        Las reparaciones del devolucion esta contemplada para la siguiente fase del desarrollo del aplicativo :D.
+        <br>
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <?php if ($permisos[0]["crear"] == 1) {?>
+                    <button class="btn btn-success" data-target="#modalDevolucionFuncionario" data-toggle="modal" id="btn_crear_devolucion_funcionario" type="button">
+                        Crear devolución
+                    </button>
+                <?php }?>
+                <hr></hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="display" id="tablaDevolucionFuncionario" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                Consecutivo
+                            </th>
+                            <th>
+                                Fecha
+                            </th>
+                            <th>
+                                Proyecto
+                            </th>
+                            <th>
+                                Territorial
+                            </th>
+                            <th>
+                                Acta
+                            </th>
+                                <?php if ($permisos[0]["editar"] == 1 || $permisos[0]["eliminar"] == 1) {?>
+                            <th>
+                                Opciones
+                            </th>
+                            <?php }?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $devolucion->getTablaDevolucionFuncionario($permisos, $permisoconsulta);?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 <?php include "modal_devolucion_proyecto.php";?>
+<?php include "modal_devolucion_funcionario.php";?>
