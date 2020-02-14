@@ -117,3 +117,4 @@ include "scripts.php";
 </div>
 <?php include "modal_devolucion_proyecto.php";?>
 <?php include "modal_devolucion_funcionario.php";?>
+<?php include "modal_acta_funcionario.php";?>
