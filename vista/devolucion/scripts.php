@@ -106,7 +106,64 @@
 
     //Campos incompletos
     function campos_incompletos(){
+        var bandera = true;
+        if($("#fkID_proyecto_funcionario").val().trim() == 0){
+            bandera = false;
+            marcar_campos("#fkID_proyecto_funcionario", 'incorrecto');
+        } else {
+            marcar_campos("#fkID_proyecto_funcionario", 'correcto');
+        }
+        if($('#fkID_territorial_funcionario').val().trim() == 0){
+            bandera = false;
+            marcar_campos("#fkID_territorial_funcionario", 'incorrecto');
+        }  else {
+            marcar_campos("#fkID_territorial_funcionario", 'correcto');
+        }
+        if($('#fkID_persona_funcionario').val().trim() == 0){
+            bandera = false;
+            marcar_campos("#fkID_persona_funcionario", 'incorrecto');
+        } else {
+            marcar_campos("#fkID_persona_funcionario", 'correcto');
+        }
+        //Valida si esta seleccionado o no
+        var arrayEquipos = new Array();
+        $('.check:checked').each(
+            function() {
+                 arrayEquipos.push($(this).val());
+            }
+        );
+        if(arrayEquipos.length == 0){
+            $(".form-check-label").html('x');
+            marcar_campos(".check", 'incorrecto');
+            bandera = false;
+        } else {
+            $(".form-check-label").html();
+            marcar_campos(".check:checked", 'correcto');
+        }
+        if(bandera == false){
+            alertify.alert(
+                'Campos incompletos',
+                'Los campos con * son obligatorios',
+                function(){
+                    alertify.error('Campos vacios');
+            });
+            return false;
+        } else {
+            return true;
+        }
         return true;
+    }
+
+    //Funcion que muestra campos obligatorios
+    function marcar_campos(campo, tipo){
+        if(tipo == 'correcto'){
+            $(campo).removeClass('is-invalid');
+            $(campo).addClass('is-valid');
+        }
+        if(tipo == 'incorrecto'){
+            $(campo).removeClass('is-valid');
+            $(campo).addClass('is-invalid');
+        }
     }
 
     //Funcion para cargar sitio
@@ -280,7 +337,7 @@
                     var htmlTags = '<tr>';
                     htmlTags += '<td>'+ data[i]["serial_equipo"] + '</td>';
                     htmlTags += '<td>'+ data[i]["nombre_tipo_equipo"] + '</td>';
-                    htmlTags += '<td><input type="checkbox" id="micheckbox" class="check" value ="'+data[i]["id_equipo"]+'" /></td>';
+                    htmlTags += '<td><input type="checkbox" id="micheckbox" class="check form-check-input" value ="'+data[i]["id_equipo"]+'" /><label class="form-check-label" for="micheckbox"></label></td>';
                     htmlTags += '</tr>';
                     $('#divDevolucionFuncionario tbody').append(htmlTags);
                 }
@@ -352,6 +409,84 @@
         })
          always(function(data) {
           console.log(data);
+        });
+    }
+
+    //Funcion para pasar eventos
+    $(".paginate_button").click(function(){
+        carga_eventos();
+    });
+
+    //Funcion para pasar eventos
+    $("[type*='search']").keypress(function(){
+        carga_eventos();
+    });
+
+    //Funcion para pasar eventos
+    function carga_eventos(){
+        evento_editar();
+    }
+
+    //Funcion editar
+    function evento_editar(){
+        //Funcion para el acta de la devolucion
+        $("[name*='btn_acta_funcionario']").click(function(){
+            fkID_devolucion = $(this).attr('data-id-devolucion');
+        $.ajax({
+            url: "../controlador/ajaxDevolucion.php",
+            data: "fkID_devolucion="+fkID_devolucion+"&tipo=devolucion_funcionario",
+            dataType: 'json',
+            type: 'POST'
+        })
+        .done(function(data) {
+            $.each(data[0], function( key, value ) {
+                console.log(key+"--"+value);
+                $('#'+key).html(value);
+                if(key == 'id_devolucion'){
+                    var fkID_devolucion = value;
+                }
+            });
+            //Lista de equipos
+            detalleDevolucionFuncionario(fkID_devolucion);
+        })
+        .fail(function(data) {
+            console.log(data);
+        })
+        .always(function(data) {
+            console.log(data);
+        });
+        });
+    }
+
+    //Funcion detalle de devolucion funcionario
+    function detalleDevolucionFuncionario(id_devolucion){
+        $.ajax({
+            url: "../controlador/ajaxDevolucion.php",
+            data: "id_devolucion="+id_devolucion+"&tipo=detalle_devolucion_funcionario",
+            dataType: 'json',
+            type: 'POST'
+        })
+        .done(function(data) {
+            console.log(data);
+            if(data.length >0){
+                for (var i = 0; i < data.length; i++) {
+                    var htmlTags = '<tr>';
+                    htmlTags += '<td>'+ data[i]["serial_equipo"] + '</td>';
+                    htmlTags += '<td>'+ data[i]["serial_equipo"] + '</td>';
+                    htmlTags += '<td>'+ data[i]["serial_equipo"] + '</td>';
+                    htmlTags += '<td>'+ data[i]["serial_equipo"] + '</td>';
+                    htmlTags += '<td>'+ data[i]["serial_equipo"] + '</td>';
+                    htmlTags += '<td>'+ data[i]["serial_equipo"] + '</td>';
+                    htmlTags += '</tr>';
+                    $('#contenidoActaDevolucionFuncionario').append(htmlTags);
+                }
+            }
+        })
+        .fail(function(data) {
+            console.log(data);
+        })
+        .always(function(data) {
+            console.log(data);
         });
     }
 </script>

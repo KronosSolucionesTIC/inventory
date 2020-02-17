@@ -1,6 +1,7 @@
 <!-- Modal -->
 <?php
 setlocale(LC_ALL, "es_ES");
+include "funciones.php";
 ?>
 <div class="modal fade" id="modalActaFuncionario" tabindex="-1" role="dialog" aria-labelledby="modalActaFuncionarioTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
@@ -13,7 +14,7 @@ setlocale(LC_ALL, "es_ES");
       </div>
       <div class="modal-body">
         <div class="row">
-          <div id="tablaHistorico">
+          <div id="contenidoActa">
 <table class="table table-bordered" >
   <thead>
     <tr>
@@ -44,36 +45,40 @@ echo date('Y-m-d H:i:s');
     </tr>
     </thead>
     <tr>
-      <td scope="col" colspan="6">Hoy ___ del mes de _____________ del ______ en la bodega de lunel-ie, se realiza la entrega formal de los equipos computacionales que se indican en el punto 2. EQUIPOS COMPUTACIONALES ASIGNADOS para el cumplimiento de las actividades del proyecto ______________________________________________________________________________ , quienes declara recepción de los mismos en buen estado y se comprometen a cuidar de los recursos y hacer uso de ellos para los fines establecidos.</td>
+      <td scope="col" colspan="6">Hoy <label id="dia"></label> del mes de <label id="mes"></label> del <label id="anio"></label> en la bodega de lunel-ie, se realiza la entrega formal de los equipos computacionales que se indican en el punto 2. EQUIPOS COMPUTACIONALES ASIGNADOS para el cumplimiento de las actividades del proyecto <label id="nombre_proyecto"></label> , quienes declara recepción de los mismos en buen estado y se comprometen a cuidar de los recursos y hacer uso de ellos para los fines establecidos.</td>
     </tr>
   </table>
-  <table class="table table-bordered" >
+  <table class="table table-bordered">
   <thead>
     <tr>
       <th scope="col" colspan="6">1. FUNCIONARIO RESPONSABLE</th>
     </tr>
     <tr>
       <td scope="col" colspan="3">Nombre completo</td>
-      <td scope="col" colspan="3"></td>
+      <td scope="col" colspan="3" id="persona_entrega"><?php echo $actaFuncionario[0]["persona_entrega"]; ?></td>
     </tr>
     <tr>
       <td scope="col" colspan="3">Cargo</td>
-      <td scope="col" colspan="3"></td>
+      <td scope="col" colspan="3"><label id="nombre_cargo"></label></td>
     </tr>
     <tr>
       <th scope="col" colspan="6">2. EQUIPOS COMPUTACIONALES ASIGNADOS</th>
     </tr>
-    <tr>
-      <th scope="col">Serial</th>
-      <th scope="col">Tipo equipo</th>
-      <th scope="col">Modelo</th>
-      <th scope="col">Marca</th>
-      <th scope="col">Sistema operativo</th>
-      <th scope="col">RAM</th>
-    </tr>
+    <table id="contenidoActaDevolucionFuncionario" class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">Serial</th>
+          <th scope="col">Tipo equipo</th>
+          <th scope="col">Modelo</th>
+          <th scope="col">Marca</th>
+          <th scope="col">Sistema operativo</th>
+          <th scope="col">RAM</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </thead>
   <tbody>
-    <?php //$equipo->getTablaHistorico($_GET["id_equipo"]);?>
     <tr>
       <th scope="col" colspan="6">
         3. TIEMPO ESTIMADO DE USO

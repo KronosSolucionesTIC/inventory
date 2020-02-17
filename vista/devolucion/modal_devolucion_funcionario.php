@@ -25,7 +25,9 @@
           <div class="form-group row">
             <label for="fkID_territorial_funcionario" class="col-sm-3 col-form-label">Territorial:</label>
             <div class="col-sm-7">
-              <select class="form-control" id="fkID_territorial_funcionario" required="true"></select>
+              <select class="form-control" id="fkID_territorial_funcionario" required="true">
+                <option value="">Seleccione...</option>
+              </select>
             </div>
             <div class="col-sm-2 text-danger">
               *
@@ -34,7 +36,9 @@
           <div class="form-group row">
             <label for="fkID_persona_funcionario" class="col-sm-3 col-form-label">Funcionario:</label>
             <div class="col-sm-7">
-              <select class="form-control" id="fkID_persona_funcionario" required="true"></select>
+              <select class="form-control" id="fkID_persona_funcionario" required="true">
+                <option value="">Seleccione...</option>
+              </select>
             </div>
             <div class="col-sm-2 text-danger">
               *

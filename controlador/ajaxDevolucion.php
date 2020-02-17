@@ -59,3 +59,21 @@ if ($tipo == 'inserta_devolucion_funcionario') {
         return 'No se guardo';
     }
 }
+
+if ($tipo == 'devolucion_funcionario') {
+    $resultado = $devolucion->devolucionFuncionario($_POST);
+    if ($resultado) {
+        echo json_encode($resultado); //imprime el json
+    } else {
+        return 'No se consulto';
+    }
+}
+
+if ($tipo == 'detalle_devolucion_funcionario') {
+    $resultado = $devolucion->detalleDevolucionFuncionario($_POST);
+    if ($resultado) {
+        echo json_encode($resultado); //imprime el json
+    } else {
+        return 'No se consulto';
+    }
+}

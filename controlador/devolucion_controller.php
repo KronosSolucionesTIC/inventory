@@ -61,7 +61,7 @@ class devolucionController extends Devolucion
         $listaDevolucion = $devolucion->getProyectos();
         //Se recorre array de nivel 1
         if (isset($listaDevolucion)) {
-            echo '<option selected value="0">Seleccione...</option>';
+            echo '<option selected value="">Seleccione...</option>';
             for ($i = 0; $i < sizeof($listaDevolucion); $i++) {
                 //Valida si es el valor
                 if ($valor == $listaDevolucion[$i]["id_proyecto"]) {
@@ -95,7 +95,7 @@ class devolucionController extends Devolucion
                         echo '<td>';
                     }
                     if ($permisos[0]["consultar"] == 1) {
-                        echo '<button type="button" class="btn btn-primary" data-target="#modalActaFuncionario" data-toggle="modal" name="btn_ver" data-id-devolucion="' . $listaDevolucion[$i]["id_devolucion"] . '"><i class="fas fa-pen-square"></i></i></button>&nbsp;';
+                        echo '<button type="button" class="btn btn-primary" data-target="#modalActaFuncionario" data-toggle="modal" name="btn_acta_funcionario" data-id-devolucion="' . $listaDevolucion[$i]["id_devolucion"] . '"><i class="fas fa-file-alt"></i></button>&nbsp;';
                     };
                     if ($permisos[0]["editar"] == 1) {
                         echo '<button type="button" class="btn btn-warning" data-target="#modalEquipo" data-toggle="modal" name="btn_editar" data-id-equipo="' . $listaDevolucion[$i]["id_devolucion"] . '"><i class="fas fa-pen-square"></i></i></button>&nbsp;';

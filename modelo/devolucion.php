@@ -270,4 +270,33 @@ class Devolucion
         array_pop($data);
         return $data;
     }
+
+    //Datos de devolucion funcionario
+    public function devolucionFuncionario($data)
+    {
+        $query = "SELECT nombre_cargo,nombre_proyecto,CONCAT(nombres_persona,' ',apellidos_persona) AS persona_entrega, DAY(fecha_devolucion) as dia,MONTH(fecha_devolucion) as mes,YEAR(fecha_devolucion) as anio FROM devolucion
+            INNER JOIN proyecto ON proyecto.id_proyecto = devolucion.fkID_proyecto
+            INNER JOIN persona AS entrega ON entrega.id_persona = devolucion.fkID_persona_entrega
+            INNER JOIN cargo ON cargo.id_cargo = entrega.fkID_cargo
+            WHERE id_devolucion = '" . $data["fkID_devolucion"] . "'";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Datos de detalle devolucion funcionario
+    public function detalleDevolucionFuncionario($data)
+    {
+        $query = "SELECT * FROM detalle_devolucion
+            INNER JOIN equipo ON equipo.id_equipo = detalle_devolucion.fkID_equipo
+            INNER JOIN devolucion ON devolucion.id_devolucion = detalle_devolucion.fkID_devolucion
+            WHERE id_devolucion = '" . $data["id_devolucion"] . "'";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
 }
