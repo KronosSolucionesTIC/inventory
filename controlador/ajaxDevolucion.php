@@ -50,13 +50,15 @@ if ($tipo == 'lista_equipos_funcionario') {
 
 if ($tipo == 'inserta_devolucion_funcionario') {
     if ($devolucion->insertaDevolucionFuncionario($_POST)) {
-        $resultado = $devolucion->insertaDetalleDevolucionFuncionario($_POST);
-        if ($resultado) {
-            echo json_encode($resultado); //imprime el json
+        if ($devolucion->insertaDetalleDevolucionFuncionario($_POST)) {
+            if ($devolucion->insertaHistorico($_POST)) {
+                if ($devolucion->modificaInventario($_POST)) {
+                    return 'Se guardo';
+                } else {
+                    return 'No se guardo';
+                }
+            }
         }
-
-    } else {
-        return 'No se guardo';
     }
 }
 

@@ -31,6 +31,9 @@
         );
     });
 
+    //Carga los eventos
+    carga_eventos();
+
     //Funcion boton crear devolucion
     $("#btn_crear_devolucion").click(function(){
         $("#modalDevolucionProyectoLabel").text("Crear devolución");
@@ -432,6 +435,7 @@
         //Funcion para el acta de la devolucion
         $("[name*='btn_acta_funcionario']").click(function(){
             fkID_devolucion = $(this).attr('data-id-devolucion');
+            console.log(fkID_devolucion);
         $.ajax({
             url: "../controlador/ajaxDevolucion.php",
             data: "fkID_devolucion="+fkID_devolucion+"&tipo=devolucion_funcionario",
@@ -469,14 +473,15 @@
         .done(function(data) {
             console.log(data);
             if(data.length >0){
+                borra_items('contenidoActaDevolucionFuncionario');
                 for (var i = 0; i < data.length; i++) {
                     var htmlTags = '<tr>';
                     htmlTags += '<td>'+ data[i]["serial_equipo"] + '</td>';
-                    htmlTags += '<td>'+ data[i]["serial_equipo"] + '</td>';
-                    htmlTags += '<td>'+ data[i]["serial_equipo"] + '</td>';
-                    htmlTags += '<td>'+ data[i]["serial_equipo"] + '</td>';
-                    htmlTags += '<td>'+ data[i]["serial_equipo"] + '</td>';
-                    htmlTags += '<td>'+ data[i]["serial_equipo"] + '</td>';
+                    htmlTags += '<td>'+ data[i]["nombre_tipo_equipo"] + '</td>';
+                    htmlTags += '<td>'+ data[i]["nombre_modelo"] + '</td>';
+                    htmlTags += '<td>'+ data[i]["nombre_marca"] + '</td>';
+                    htmlTags += '<td>'+ data[i]["nombre_sistema_operativo"] + '</td>';
+                    htmlTags += '<td>'+ data[i]["nombre_ram"] + '</td>';
                     htmlTags += '</tr>';
                     $('#contenidoActaDevolucionFuncionario').append(htmlTags);
                 }

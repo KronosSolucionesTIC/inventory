@@ -149,7 +149,7 @@ class Devolucion
             $url = "";
         }
         if ($permisosConsulta[0]["fkID_cargo"] == 2) {
-            $url = " AND fkID_proyecto= '" . $permisosConsulta[0]['fkID_proyecto'] . "'";
+            $url = " AND entrega.fkID_proyecto= '" . $permisosConsulta[0]['fkID_proyecto'] . "'";
         }
         if ($permisosConsulta[0]["fkID_cargo"] == 3) {
             $url = " AND fkID_persona_a_cargo = '" . $permisosConsulta[0]['fkID_persona'] . "'";
@@ -185,7 +185,7 @@ class Devolucion
     {
         $query = "SELECT id_persona,CONCAT(nombres_persona,' ',apellidos_persona) as nombre_persona FROM persona
                 INNER JOIN territorial ON territorial.id_territorial = persona.fkID_territorial
-                WHERE fkID_territorial = '" . $data['fkID_territorial'] . "'";
+                WHERE fkID_territorial = '" . $data['fkID_territorial'] . "' AND fkID_cargo = 4";
         $result = mysqli_query($this->link, $query);
         $data   = array();
         while ($data[] = mysqli_fetch_assoc($result));
@@ -274,10 +274,12 @@ class Devolucion
     //Datos de devolucion funcionario
     public function devolucionFuncionario($data)
     {
-        $query = "SELECT nombre_cargo,nombre_proyecto,CONCAT(nombres_persona,' ',apellidos_persona) AS persona_entrega, DAY(fecha_devolucion) as dia,MONTH(fecha_devolucion) as mes,YEAR(fecha_devolucion) as anio FROM devolucion
+        $query = "SELECT conse_devolucion,entrega_cargo.nombre_cargo AS cargo_entrega,CONCAT(entrega.nombres_persona,' ',entrega.apellidos_persona) AS persona_entrega,recibe_cargo.nombre_cargo AS cargo_recibe,CONCAT(recibe.nombres_persona,' ',recibe.apellidos_persona) AS persona_recibe FROM devolucion
             INNER JOIN proyecto ON proyecto.id_proyecto = devolucion.fkID_proyecto
             INNER JOIN persona AS entrega ON entrega.id_persona = devolucion.fkID_persona_entrega
-            INNER JOIN cargo ON cargo.id_cargo = entrega.fkID_cargo
+            INNER JOIN cargo AS entrega_cargo ON entrega_cargo.id_cargo = entrega.fkID_cargo
+            INNER JOIN persona AS recibe ON recibe.id_persona = devolucion.fkID_persona_recibe
+            INNER JOIN cargo AS recibe_cargo ON recibe_cargo.id_cargo = recibe.fkID_cargo
             WHERE id_devolucion = '" . $data["fkID_devolucion"] . "'";
         $result = mysqli_query($this->link, $query);
         $data   = array();
@@ -291,6 +293,11 @@ class Devolucion
     {
         $query = "SELECT * FROM detalle_devolucion
             INNER JOIN equipo ON equipo.id_equipo = detalle_devolucion.fkID_equipo
+            INNER JOIN tipo_equipo ON tipo_equipo.id_tipo_equipo = equipo.fkID_tipo_equipo
+            INNER JOIN modelo ON modelo.id_modelo = equipo.fkID_modelo
+            INNER JOIN marca ON marca.id_marca = equipo.fkID_marca
+            INNER JOIN sistema_operativo ON sistema_operativo.id_sistema_operativo = equipo.fkID_sistema_operativo
+            INNER JOIN ram ON ram.id_ram = equipo.fkID_ram
             INNER JOIN devolucion ON devolucion.id_devolucion = detalle_devolucion.fkID_devolucion
             WHERE id_devolucion = '" . $data["id_devolucion"] . "'";
         $result = mysqli_query($this->link, $query);
@@ -299,4 +306,72 @@ class Devolucion
         array_pop($data);
         return $data;
     }
+
+    //Inserta en historico
+    public function insertaHistorico($data)
+    {
+        //Consulta el ultimo ID de devolucion
+        $id_devolucion = $this->getIdDevolucion();
+
+        //Consulta los datos de la devolucion
+        $devolucion = $this->getDevolucionID($id_devolucion[0]["id_devolucion"]);
+
+        //Decodifica y saca / del array
+        $data = json_decode(stripslashes($data["arrayEquipos"]));
+        //Contador
+        $numero = count($data);
+
+        //Recorre array equipos
+        for ($i = 0; $i < $numero; $i++) {
+            # code...
+            $query  = "INSERT INTO historico_equipo (fecha_historico_equipo,fkID_equipo,fkID_persona_entrega, fkID_persona_recibe, fkID_tipo_movimiento, obs_historico_equipo, conse_historico_equipo) VALUES (NOW(),'" . $data[$i] . "','" . $devolucion[0]["fkID_persona_entrega"] . "','" . $devolucion[0]["fkID_persona_recibe"] . "' , '" . $devolucion[0]["fkID_tipo_movimiento"] . "', 'DEVOLUCIÓN DE EQUIPO FUNCIONARIO','" . $devolucion[0]["conse_devolucion"] . "')";
+            $result = mysqli_query($this->link, $query);
+        }
+
+        if (mysqli_affected_rows($this->link) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //Consulta devolucion por ID
+    public function getDevolucionID($id_devolucion)
+    {
+        $query  = "SELECT * FROM `devolucion` WHERE id_devolucion = '" . $id_devolucion . "'";
+        $result = mysqli_query($this->link, $query);
+        $data   = array();
+        while ($data[] = mysqli_fetch_assoc($result));
+        array_pop($data);
+        return $data;
+    }
+
+    //Modifica el inventario
+    public function modificaInventario($data)
+    {
+        //Consulta el ultimo ID de devolucion
+        $id_devolucion = $this->getIdDevolucion();
+
+        //Consulta los datos de la devolucion
+        $devolucion = $this->getDevolucionID($id_devolucion[0]["id_devolucion"]);
+
+        //Decodifica y saca / del array
+        $data = json_decode(stripslashes($data["arrayEquipos"]));
+        //Contador
+        $numero = count($data);
+
+        //Recorre array equipos
+        for ($i = 0; $i < $numero; $i++) {
+            # code...
+            $query  = "UPDATE inventario SET fkID_persona_a_cargo = '" . $devolucion[0]["fkID_persona_recibe"] . "' WHERE fkID_equipo = '" . $data[$i] . "'";
+            $result = mysqli_query($this->link, $query);
+        }
+
+        if (mysqli_affected_rows($this->link) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
