@@ -43,7 +43,7 @@ $usuario = new Usuario();
     </div>
     <!-- Icon -->
     <div class="fadeIn first">
-      <img src="../../imagenes/logo.png" class="img-fluid">
+      <img src="../../imagenes/logo.jfif" class="img-fluid">
     </div>
 
     <!-- Login Form -->
